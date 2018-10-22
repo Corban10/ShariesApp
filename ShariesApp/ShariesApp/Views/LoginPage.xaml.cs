@@ -13,6 +13,7 @@ namespace ShariesApp
 	public partial class LoginPage : ContentPage
     {
         public static bool isValid = false;
+	public static bool loggedInUser = new UserData();
         public LoginPage ()
 		{
 			InitializeComponent ();
@@ -33,6 +34,7 @@ namespace ShariesApp
             if (isValid)
             {
                 App.IsUserLoggedIn = true;
+		loggedInUser = user;
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync(); //this means go back a page
             }
