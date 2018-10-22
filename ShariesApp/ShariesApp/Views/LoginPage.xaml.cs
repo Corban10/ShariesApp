@@ -13,7 +13,7 @@ namespace ShariesApp
 	public partial class LoginPage : ContentPage
     {
         public static bool isValid = false;
-	public static bool loggedInUser = new UserData();
+	public static UserData loggedInUser = new UserData();
         public LoginPage ()
 		{
 			InitializeComponent ();
