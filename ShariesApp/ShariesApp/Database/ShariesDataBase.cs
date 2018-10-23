@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -17,15 +18,18 @@ namespace ShariesApp
             database.CreateTableAsync<UserData>().Wait();
         }
         // Get methods
-        public Task<List<UserData>> GetUserData() // get UserData table as list
+        public Task<List<UserData>> GetUserDataTableAsync() // get UserData table as list
         {
             return database.Table<UserData>().ToListAsync();
         }
-        public Task<UserData> GetUserDataItem(int id) // get one row from UserData table 
+        public Task<UserData> GetUserDataItemAsync(int id) // get one row from UserData table with query
         {
             return database.Table<UserData>().Where(i => i.AccountNumber == id).FirstOrDefaultAsync();
         }
-
+        public Task<UserData> GetUserDataFromPK(int id) // find row with PK
+        {
+            return database.FindAsync<UserData>(id);
+        }
         // Save methods
         public Task<int> SaveUserData(UserData item)
         {

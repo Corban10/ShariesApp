@@ -31,8 +31,8 @@ namespace ShariesApp
             {
                 if (database == null)
                 {
-                    database = new ShariesDataBase(
-                      Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sharies.db3"));
+                    string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sharies.db3");
+                    database = new ShariesDataBase(dbPath);
                 }
                 return database;
             }

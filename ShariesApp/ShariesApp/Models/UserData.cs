@@ -7,7 +7,7 @@ namespace ShariesApp
 {
     public class UserData
     {
-        [PrimaryKey]
+        [PrimaryKey, Unique]
         public int AccountNumber { get; set; }
 
         public string Password { get; set; }

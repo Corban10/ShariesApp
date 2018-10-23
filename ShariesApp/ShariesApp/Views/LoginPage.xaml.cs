@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -13,14 +12,13 @@ namespace ShariesApp
 	public partial class LoginPage : ContentPage
     {
         public static bool isValid = false;
-	public static UserData loggedInUser;
         public LoginPage ()
 		{
 			InitializeComponent ();
 		}
         async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
-            await Navigation.PushAsync(new SignUpPage());  //this means go to signuppage
+            await Navigation.PushAsync(new SignUpPage());
         }
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
@@ -34,9 +32,10 @@ namespace ShariesApp
             if (isValid)
             {
                 App.IsUserLoggedIn = true;
-		loggedInUser = user;
+		        MainPage.loggedInUser = user;
                 Navigation.InsertPageBefore(new MainPage(), this);
-                await Navigation.PopAsync(); //this means go back a page
+                await Navigation.PopAsync(); 
+                // await Navigation.PushAsync(new MainPage());
             }
             else
             {
@@ -44,13 +43,16 @@ namespace ShariesApp
                 passwordEntry.Text = string.Empty;
             }
         }
-        async void AreCredentialsCorrect(UserData user)
+        void AreCredentialsCorrect(UserData user)
         {
-            var userDataTable = await App.Database.GetUserData(); // get user data from db to check if valid
-
-            foreach (var item in userDataTable)
+            var task = App.Database.GetUserDataFromPK(user.AccountNumber);
+            task.Wait();
+            var responseData = task.Result; 
+            // had to wait for async call before seeing if responseData was null
+            // sqlite-net-pcl package doesnt have non async versions of this method so i had to hack this in
+            if (responseData != null)
             {
-                if (item.AccountNumber == user.AccountNumber && item.Password == user.Password && user.AccountNumber != 0 && user.Password != null)
+                if (responseData.Password == user.Password)
                 {
                     isValid = true;
                 }

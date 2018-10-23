@@ -8,8 +8,9 @@ using Xamarin.Forms;
 namespace ShariesApp
 {
 	public partial class MainPage : ContentPage
-	{
-		public MainPage()
+    {
+        public static UserData loggedInUser;
+        public MainPage()
 		{
 			InitializeComponent();
 		}
@@ -18,6 +19,7 @@ namespace ShariesApp
             App.IsUserLoggedIn = false;
             LoginPage.isValid = false;
             SignUpPage.signUpSucceeded = false;
+            loggedInUser = new UserData();
             Navigation.InsertPageBefore(new LoginPage(), this);
             await Navigation.PopAsync();
         }

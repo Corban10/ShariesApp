@@ -12,7 +12,7 @@ namespace ShariesApp
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SignUpPage : ContentPage
     {
-        public static bool signUpSucceeded = true;
+        public static bool signUpSucceeded = false;
 
         public SignUpPage ()
 		{
@@ -37,6 +37,7 @@ namespace ShariesApp
                     await App.Database.SaveUserData(user); //store details in db
 
                     App.IsUserLoggedIn = true;
+                    MainPage.loggedInUser = user;
                     Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());
                     await Navigation.PopToRootAsync();
                 }
@@ -47,12 +48,14 @@ namespace ShariesApp
             }
         }
 
-        async void AreDetailsValid(UserData user)
+        void AreDetailsValid(UserData user)
         {
-            var userDataTable = await App.Database.GetUserData(); // get user data from db to check if valid
-            foreach (var item in userDataTable)
+            var task = App.Database.GetUserDataFromPK(user.AccountNumber);
+            task.Wait();
+            var responseData = task.Result;
+            if (responseData == null)
             {
-                if (user.AccountNumber != item.AccountNumber && user.AccountNumber != 0 && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Name))
+                if (user.AccountNumber != 0 && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Name))
                 {
                     signUpSucceeded = true;
                 }
