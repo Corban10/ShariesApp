@@ -45,11 +45,9 @@ namespace ShariesApp
         }
         void AreCredentialsCorrect(UserData user)
         {
-            var task = App.Database.GetUserDataFromPK(user.AccountNumber);
-            task.Wait();
-            var responseData = task.Result; 
-            // had to wait for async call before seeing if responseData was null
-            // sqlite-net-pcl package doesnt have non async versions of this method so i had to hack this in
+            var responseData = Task.Run(async () => {
+                return await App.Database.GetUserDataFromPK(user.AccountNumber);
+            }).Result;
             if (responseData != null)
             {
                 if (responseData.Password == user.Password)
@@ -57,6 +55,11 @@ namespace ShariesApp
                     isValid = true;
                 }
             }
+            /*
+            var task = App.Database.GetUserDataFromPK(user.AccountNumber);
+            task.Wait();
+            var responseData = task.Result;
+            */
         }
     }
 }

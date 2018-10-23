@@ -50,9 +50,9 @@ namespace ShariesApp
 
         void AreDetailsValid(UserData user)
         {
-            var task = App.Database.GetUserDataFromPK(user.AccountNumber);
-            task.Wait();
-            var responseData = task.Result;
+            var responseData = Task.Run(async () => {
+                return await App.Database.GetUserDataFromPK(user.AccountNumber);
+            }).Result;
             if (responseData == null)
             {
                 if (user.AccountNumber != 0 && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Name))
