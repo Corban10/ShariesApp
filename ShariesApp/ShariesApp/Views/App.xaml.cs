@@ -9,7 +9,8 @@ namespace ShariesApp
 {
 	public partial class App : Application
     {
-        static ShariesDataBase database;
+        // static ShariesDataBase database
+        static ShariesAzureDatabase database;
         public static bool IsUserLoggedIn { get; set; }
         public App ()
 		{
@@ -21,10 +22,23 @@ namespace ShariesApp
             }
             else
             {
-                MainPage = new NavigationPage(new ShariesApp.MainPage());
+                MainPage = new NavigationPage(new MainPage());
             }
 		}
+        //public static ShariesAzureDatabase Database = new ShariesAzureDatabase();
 
+        public static ShariesAzureDatabase Database
+        {
+            get
+            {
+                if (database == null)
+                {
+                    database = new ShariesAzureDatabase();
+                }
+                return database;
+            }
+        }
+        /*
         public static ShariesDataBase Database
         {
             get
@@ -37,6 +51,7 @@ namespace ShariesApp
                 return database;
             }
         }
+        */
         protected override void OnStart ()
 		{
             //Debug.WriteLine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sharies.db3"));

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -18,23 +17,21 @@ namespace ShariesApp
 		{
 			InitializeComponent ();
 		}
-
         async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
-            var user = new UserData()
+            var user = new UserData
             {
-                AccountNumber = Convert.ToInt32(usernameEntry.Text),
+                id = usernameEntry.Text,
                 Password = passwordEntry.Text,
-                Name = emailEntry.Text
+                Name = nameEntry.Text
             };
-            // Sign up logic goes here
             AreDetailsValid(user);
             if (signUpSucceeded)
             {
                 var rootPage = Navigation.NavigationStack.FirstOrDefault();
                 if (rootPage != null)
                 {
-                    await App.Database.SaveUserData(user); //store details in db
+                    App.Database.InsertUserDataAsync(user); //store details in db
 
                     App.IsUserLoggedIn = true;
                     MainPage.loggedInUser = user;
@@ -47,15 +44,12 @@ namespace ShariesApp
                 messageLabel.Text = "Sign up failed";
             }
         }
-
         void AreDetailsValid(UserData user)
         {
-            var responseData = Task.Run(async () => {
-                return await App.Database.GetUserDataFromPK(user.AccountNumber);
-            }).Result;
-            if (responseData == null)
+            var responseData = App.Database.GetUserDataAsync(user.id);
+            if (string.IsNullOrWhiteSpace(responseData.id))
             {
-                if (user.AccountNumber != 0 && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Name))
+                if (!string.IsNullOrWhiteSpace(user.id) && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Name))
                 {
                     signUpSucceeded = true;
                 }

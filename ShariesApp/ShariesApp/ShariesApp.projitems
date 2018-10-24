@@ -13,6 +13,8 @@
     <EmbeddedResource Include="$(MSBuildThisFileDirectory)Views\MainPage.xaml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)Database\ShariesAzureDatabase.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Database\ShariesDataBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BlockedAccountsModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SystemDataModel.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\TransactionDataModel.cs" />
@@ -27,7 +29,6 @@
     <Compile Include="$(MSBuildThisFileDirectory)Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="$(MSBuildThisFileDirectory)Database\ShariesDataBase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\SignUpPage.xaml.cs">
       <DependentUpon>SignUpPage.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -47,7 +48,6 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="$(MSBuildThisFileDirectory)Database\" />
     <Folder Include="$(MSBuildThisFileDirectory)Views\" />
   </ItemGroup>
 </Project>

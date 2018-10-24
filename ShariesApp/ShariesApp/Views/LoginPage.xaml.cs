@@ -24,18 +24,18 @@ namespace ShariesApp
         {
             var user = new UserData
             {
-                AccountNumber = Convert.ToInt32(usernameEntry.Text),
+                id = usernameEntry.Text,
                 Password = passwordEntry.Text
             };
-
-            AreCredentialsCorrect(user);
+            if (!string.IsNullOrWhiteSpace(user.id))
+            {
+                AreCredentialsCorrect(user);
+            }
             if (isValid)
             {
-                App.IsUserLoggedIn = true;
-		        MainPage.loggedInUser = user;
+                var result = App.Database.GetUserDataAsync(user.id);
                 Navigation.InsertPageBefore(new MainPage(), this);
-                await Navigation.PopAsync(); 
-                // await Navigation.PushAsync(new MainPage());
+                await Navigation.PopAsync();
             }
             else
             {
@@ -45,21 +45,11 @@ namespace ShariesApp
         }
         void AreCredentialsCorrect(UserData user)
         {
-            var responseData = Task.Run(async () => {
-                return await App.Database.GetUserDataFromPK(user.AccountNumber);
-            }).Result;
-            if (responseData != null)
+            var responseData = App.Database.GetUserDataAsync(user.id);
+            if (responseData.Password == user.Password)
             {
-                if (responseData.Password == user.Password)
-                {
-                    isValid = true;
-                }
+                isValid = true;
             }
-            /*
-            var task = App.Database.GetUserDataFromPK(user.AccountNumber);
-            task.Wait();
-            var responseData = task.Result;
-            */
-        }
+        } 
     }
 }
