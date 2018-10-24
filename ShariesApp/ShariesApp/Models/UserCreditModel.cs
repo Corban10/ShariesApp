@@ -1,4 +1,3 @@
-using SQLite;
 using System;
 
 namespace ShariesPrototype
@@ -7,7 +6,6 @@ namespace ShariesPrototype
     // This is the only model that isn't included in our ERD and class diagram
     // because it represents the main systems database
     {
-        [PrimaryKey]
         public int accountNumber { get; set; }
         public double creditAmount { get; set; }
         public double textAmount { get; set; }
