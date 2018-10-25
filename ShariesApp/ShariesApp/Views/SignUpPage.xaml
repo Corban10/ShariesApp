@@ -6,17 +6,15 @@
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="2*" />
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
-                <RowDefinition Height="*" />
+                <RowDefinition Height="2*" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <StackLayout Grid.Row="1" Grid.RowSpan="2" Grid.Column="1" Grid.ColumnSpan="2" VerticalOptions="StartAndExpand">
+            <StackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="StartAndExpand">
                 <Label Text="Username" />
                 <Entry x:Name="usernameEntry" Placeholder="username" />
                 <Label Text="Password" />
