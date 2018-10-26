@@ -19,10 +19,10 @@
             </Grid.RowDefinitions>
             <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
                 <Label Text="Username" />
-                    <Entry x:Name="usernameEntry" Placeholder="username" />
-                    <Label Text="Password" />
-                    <Entry x:Name="passwordEntry" IsPassword="true" />
-                    <Button Text="Login" Clicked="OnLoginButtonClicked" />
+                <Entry x:Name="usernameEntry" Placeholder="username" />
+                <Label Text="Password" />
+                <Entry x:Name="passwordEntry" IsPassword="true" />
+                <Button Text="Login" Clicked="OnLoginButtonClicked" />
                 <Label x:Name="messageLabel" />
             </StackLayout>
         </Grid>

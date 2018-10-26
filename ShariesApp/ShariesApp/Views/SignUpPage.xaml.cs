@@ -32,7 +32,6 @@ namespace ShariesApp
                 if (rootPage != null)
                 {
                     App.Database.InsertUserDataAsync(user); //store details in db
-
                     App.IsUserLoggedIn = true;
                     MainPage.loggedInUser = user;
                     Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());
@@ -46,7 +45,7 @@ namespace ShariesApp
         }
         void AreDetailsValid(UserData user)
         {
-            var responseData = App.Database.GetUserDataAsync(user.id);
+            var responseData = App.Database.QueryUserDataById(user.id);
             if (string.IsNullOrWhiteSpace(responseData.id))
             {
                 if (!string.IsNullOrWhiteSpace(user.id) && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Name))

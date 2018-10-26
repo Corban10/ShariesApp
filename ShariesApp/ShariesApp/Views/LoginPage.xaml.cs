@@ -33,7 +33,6 @@ namespace ShariesApp
             }
             if (isValid)
             {
-                var result = App.Database.GetUserDataAsync(user.id);
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             }
@@ -45,7 +44,8 @@ namespace ShariesApp
         }
         void AreCredentialsCorrect(UserData user)
         {
-            var responseData = App.Database.GetUserDataAsync(user.id);
+            var responseData = App.Database.QueryUserDataById(user.id); // App.Database.GetUserData(user.id);
+
             if (responseData.Password == user.Password)
             {
                 isValid = true;
