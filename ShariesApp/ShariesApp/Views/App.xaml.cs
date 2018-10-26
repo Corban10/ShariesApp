@@ -38,20 +38,6 @@ namespace ShariesApp
                 return database;
             }
         }
-        /*
-        public static ShariesDataBase Database
-        {
-            get
-            {
-                if (database == null)
-                {
-                    string dbPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sharies.db3");
-                    database = new ShariesDataBase(dbPath);
-                }
-                return database;
-            }
-        }
-        */
         protected override void OnStart ()
 		{
             //Debug.WriteLine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sharies.db3"));
