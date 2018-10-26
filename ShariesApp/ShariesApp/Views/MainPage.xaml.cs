@@ -3,17 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Xamarin.Forms;
 
-namespace ShariesApp
+using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
+
+namespace ShariesApp.Views
 {
-	public partial class MainPage : ContentPage
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class MainPage : TabbedPage
     {
         public static UserData loggedInUser;
-        public MainPage()
-		{
-			InitializeComponent();
-		}
+        public MainPage ()
+        {
+            InitializeComponent();
+        }
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
             App.IsUserLoggedIn = false;
