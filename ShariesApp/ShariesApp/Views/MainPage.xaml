@@ -2,44 +2,7 @@
 <TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShariesApp.Views.MainPage">
-    <!--Pages can be added as references or inline-->
-    <ContentPage Title="Tab 1"
-        xmlns="http://xamarin.com/schemas/2014/forms"
-        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        xmlns:local="clr-namespace:ShariesApp">
-        <ContentPage.ToolbarItems>
-            <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />
-            </ContentPage.ToolbarItems>
-            <ContentPage.Content>
-                <StackLayout>
-                    <Label Text="Tab 1" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-                </StackLayout>
-            </ContentPage.Content>
-    </ContentPage>
-    <ContentPage Title="Tab 2"
-        xmlns="http://xamarin.com/schemas/2014/forms"
-        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        xmlns:local="clr-namespace:ShariesApp">
-        <ContentPage.ToolbarItems>
-            <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />
-        </ContentPage.ToolbarItems>
-        <ContentPage.Content>
-            <StackLayout>
-                <Label Text="Tab 2" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-            </StackLayout>
-        </ContentPage.Content>
-    </ContentPage>
-    <ContentPage Title="Tab 2"
-        xmlns="http://xamarin.com/schemas/2014/forms"
-        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-        xmlns:local="clr-namespace:ShariesApp">
-        <ContentPage.ToolbarItems>
-            <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />
-        </ContentPage.ToolbarItems>
-        <ContentPage.Content>
-            <StackLayout>
-                <Label Text="Tab 3" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" />
-            </StackLayout>
-        </ContentPage.Content>
-    </ContentPage>
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Text="Logout" Clicked="OnLogoutButtonClicked" />
+    </TabbedPage.ToolbarItems>
 </TabbedPage>

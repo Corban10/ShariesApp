@@ -34,6 +34,7 @@ namespace ShariesApp
             }
             if (isValid)
             {
+                MainPage.loggedInUser = user;
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             }
