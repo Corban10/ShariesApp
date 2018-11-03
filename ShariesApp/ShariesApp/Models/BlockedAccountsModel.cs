@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ShariesPrototype
 {
-    class BlockedAccounts // create own class file? *
+    public class BlockedAccounts // create own class file? *
     {
         [JsonProperty(PropertyName = "blocker")]
         public int blocker { get; set; }

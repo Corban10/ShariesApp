@@ -1,10 +1,13 @@
 using System;
 using Newtonsoft.Json;
 
-namespace ShariesPrototype
+namespace ShariesApp
 {
-    class SystemDataModel
+    public class SystemData
     {
+        [JsonProperty(PropertyName = "id")]
+        public string id { get; set; }
+
         [JsonProperty(PropertyName = "creditLimit")]
         public double creditLimit { get; set; }
 

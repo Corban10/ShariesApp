@@ -11,14 +11,17 @@ namespace ShariesApp
     {
         MobileServiceClient _client;
         IMobileServiceTable<UserData> userDataTable;
+        IMobileServiceTable<SystemData> systemDataTable;
 
         public ShariesAzureDatabase()
         {
             _client = new MobileServiceClient("https://Sharies.azurewebsites.net");
             this.userDataTable = _client.GetTable<UserData>();
+            this.systemDataTable = _client.GetTable<SystemData>();
         }
 
-        public UserData GetUserDataAsync(string Id)
+        #region UserDataQueries
+        public UserData GetUserData(string Id)
         {
             try
             {
@@ -27,7 +30,7 @@ namespace ShariesApp
                 }).Result;
                 return userData;
             }
-            catch (Exception e)
+            catch
             {
                 return new UserData();
             }
@@ -42,7 +45,7 @@ namespace ShariesApp
                 }).Result.First();
                 return userData;
             }
-            catch (Exception e)
+            catch
             {
                 return new UserData();
             }
@@ -63,5 +66,20 @@ namespace ShariesApp
         {
             await userDataTable.DeleteAsync(user);
         }
+        #endregion
+
+        #region SystemDataQueries
+        public SystemData GetSystemData(string Id)
+        {
+            var systemData = Task.Run(async () => {
+                return await systemDataTable.LookupAsync(Id);
+            }).Result;
+            return systemData;
+        }
+        public async void UpdateSystemDataAsync(SystemData systemData)
+        {
+            await systemDataTable.UpdateAsync(systemData);
+        }
+        #endregion
     }
 }

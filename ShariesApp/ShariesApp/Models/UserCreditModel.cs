@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace ShariesPrototype
 {
-    class UserCreditModel
+    public class UserCreditModel
     // This is the only model that isn't included in our ERD and class diagram
     // because it represents the main systems database
     {

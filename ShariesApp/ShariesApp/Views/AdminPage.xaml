@@ -3,10 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShariesApp.Views.AdminPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Admin Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout >
+            <StackLayout Padding="50">
+                <Picker Title="Set Limit for:" SelectedIndexChanged="setLimitSelectedIndexChanged">
+                    <Picker.Items>
+                        <x:String>Credit</x:String>
+                        <x:String>Texts</x:String>
+                        <x:String>Data</x:String>
+                        <x:String>Minutes</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Entry x:Name="setLimitEntry"></Entry>
+                <Button x:Name="setLimitButton" Text="Set Limit" Clicked="setLimitButtonClicked"></Button>
+                <Label x:Name="nameLabel"></Label>
+            </StackLayout>
+            <StackLayout Margin="50,0,50,50">
+                <Picker Title="Change user:" SelectedIndexChanged="cDetailsSelectedIndexChanged">
+                    <Picker.Items>
+                        <x:String>Account Number</x:String>
+                        <x:String>Password</x:String>
+                    </Picker.Items>
+                </Picker>
+                <Entry x:Name="oldDetails" Placeholder="Old"></Entry>
+                <Entry x:Name="newDetails" Placeholder="New"></Entry>
+                <Button x:Name="changeDetailsButton" Text="Change" Clicked="changeDetailsButtonClicked"></Button>
+                <Label x:Name="nameLabelTwo"></Label>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
