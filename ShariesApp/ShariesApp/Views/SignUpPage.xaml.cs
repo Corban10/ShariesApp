@@ -22,9 +22,9 @@ namespace ShariesApp
         {
             var user = new UserData
             {
-                id = usernameEntry.Text,
-                Password = passwordEntry.Text,
-                Name = nameEntry.Text
+                accountNumber = usernameEntry.Text,
+                password = passwordEntry.Text,
+                name = nameEntry.Text
             };
             AreDetailsValid(user);
             if (signUpSucceeded)
@@ -46,10 +46,10 @@ namespace ShariesApp
         }
         void AreDetailsValid(UserData user)
         {
-            var responseData = App.Database.QueryUserDataById(user.id);
-            if (string.IsNullOrWhiteSpace(responseData.id))
+            var responseData = App.Database.QueryUserDataById(user.accountNumber);
+            if (string.IsNullOrWhiteSpace(responseData.accountNumber))
             {
-                if (!string.IsNullOrWhiteSpace(user.id) && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Name))
+                if (!string.IsNullOrWhiteSpace(user.accountNumber) && !string.IsNullOrWhiteSpace(user.password) && !string.IsNullOrWhiteSpace(user.name))
                 {
                     signUpSucceeded = true;
                 }

@@ -5,7 +5,7 @@ namespace ShariesPrototype
 {
     public class TransactionDataModel
     {
-        [JsonProperty(PropertyName = "transactionID")]
+        [JsonProperty(PropertyName = "id")]
         public int transactionID { get; set; } //PK
 
         [JsonProperty(PropertyName = "transactionSource")]
@@ -15,12 +15,12 @@ namespace ShariesPrototype
         public int transactionDestination { get; set; } //FK2
 
         [JsonProperty(PropertyName = "transactionType")]
-        public int transactionType { get; set; } // enumeration of types?
+        public string transactionType { get; set; }
 
         [JsonProperty(PropertyName = "transactionAmount")]
         public double transactionAmount{ get; set; }
 
         [JsonProperty(PropertyName = "NotificationStatus")]
-        public bool NotificationStatus { get; set; } // sent or not sent?
+        public bool notificationStatus { get; set; } // sent or not sent?
     }
 }

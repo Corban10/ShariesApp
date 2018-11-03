@@ -12,12 +12,14 @@ namespace ShariesApp
         MobileServiceClient _client;
         IMobileServiceTable<UserData> userDataTable;
         IMobileServiceTable<SystemData> systemDataTable;
+        IMobileServiceTable<BlockedAccounts> blockedAccountsTable;
 
         public ShariesAzureDatabase()
         {
             _client = new MobileServiceClient("https://Sharies.azurewebsites.net");
             this.userDataTable = _client.GetTable<UserData>();
             this.systemDataTable = _client.GetTable<SystemData>();
+            this.blockedAccountsTable = _client.GetTable<BlockedAccounts>();
         }
 
         #region UserDataQueries
@@ -41,7 +43,7 @@ namespace ShariesApp
             try
             {
                 var userData = Task.Run(async () => {
-                    return await userDataTable.Where(item => item.id == Id).ToListAsync();
+                    return await userDataTable.Where(item => item.accountNumber == Id).ToListAsync();
                 }).Result.First();
                 return userData;
             }
@@ -52,7 +54,7 @@ namespace ShariesApp
         }
         public async Task<List<UserData>> QueryUserDataByIdAsync(string Id)
         {
-            return await userDataTable.Where(item => item.id == Id).ToListAsync();
+            return await userDataTable.Where(item => item.accountNumber == Id).ToListAsync();
         }
         public async void InsertUserDataAsync(UserData user)
         {
@@ -79,6 +81,25 @@ namespace ShariesApp
         public async void UpdateSystemDataAsync(SystemData systemData)
         {
             await systemDataTable.UpdateAsync(systemData);
+        }
+        #endregion
+
+        #region BlockedAccountsQueries
+        public List<BlockedAccounts> QueryBlockedAccountsByBlocker(int blocker)
+        {
+            var userData = Task.Run(async () =>
+            {
+                return await blockedAccountsTable.Where(item => item.blocker == blocker).ToListAsync();
+            }).Result;
+            return userData;
+        }
+        public async void InsertBlockedAccountsAsync(BlockedAccounts bAccounts)
+        {
+            await blockedAccountsTable.InsertAsync(bAccounts);
+        }
+        public async void DeleteBlockedAccountsAsync(BlockedAccounts bAccounts)
+        {
+            await blockedAccountsTable.DeleteAsync(bAccounts);
         }
         #endregion
     }

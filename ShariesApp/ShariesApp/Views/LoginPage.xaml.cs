@@ -25,10 +25,10 @@ namespace ShariesApp
         {
             var user = new UserData
             {
-                id = usernameEntry.Text,
-                Password = passwordEntry.Text
+                accountNumber = usernameEntry.Text,
+                password = passwordEntry.Text
             };
-            if (!string.IsNullOrWhiteSpace(user.id))
+            if (!string.IsNullOrWhiteSpace(user.accountNumber))
             {
                 AreCredentialsCorrect(user);
             }
@@ -46,9 +46,9 @@ namespace ShariesApp
         }
         void AreCredentialsCorrect(UserData user)
         {
-            var responseData = App.Database.QueryUserDataById(user.id); // App.Database.GetUserData(user.id);
+            var responseData = App.Database.QueryUserDataById(user.accountNumber); // App.Database.GetUserData(user.id);
 
-            if (responseData.Password == user.Password)
+            if (responseData.password == user.password)
             {
                 isValid = true;
             }

@@ -91,7 +91,7 @@ namespace ShariesApp.Views
             if (cDetailsSelectedIndex >= 0 && checkIsConvertableToInt(accountNumber.Text)) //check if account number is number
             {
                 var getUserData = App.Database.GetUserData(accountNumber.Text); //get this users details
-                if (!string.IsNullOrWhiteSpace(getUserData.id)) //check if returned value is not blank object
+                if (!string.IsNullOrWhiteSpace(getUserData.accountNumber)) //check if returned value is not blank object
                 {
                     switch (cDetailsSelectedIndex) //picker value, 0 = change account number, 1 = change password
                     {
@@ -100,20 +100,20 @@ namespace ShariesApp.Views
                             if (checkIsConvertableToInt(newDetails.Text)) // check if new account number is valid
                             {
                                 App.Database.DeleteUserDataAsync(getUserData); //delete old row
-                                getUserData.id = newDetails.Text; // change account number
+                                getUserData.accountNumber = newDetails.Text; // change account number
                                 App.Database.InsertUserDataAsync(getUserData); //insert new row
                             }
                             break;
                         case 1:
                             if (!string.IsNullOrWhiteSpace(newDetails.Text)) // check if password is valid
                             {
-                                getUserData.Password = newDetails.Text;
+                                getUserData.password = newDetails.Text;
                                 App.Database.UpdateUserDataAsync(getUserData); //update row
                             }
                             break;
                     }
                     //display user values for confirmation
-                    nameLabelTwo.Text = string.Format("Account number: {0}\nPassword: {1}", getUserData.id, getUserData.Password); 
+                    nameLabelTwo.Text = string.Format("Account number: {0}\nPassword: {1}", getUserData.accountNumber, getUserData.password); 
                 }
             }
             else
