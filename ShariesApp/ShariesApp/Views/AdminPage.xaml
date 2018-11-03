@@ -12,6 +12,7 @@
                         <x:String>Data</x:String>
                         <x:String>Minutes</x:String>
                     </Picker.Items>
+                    <Picker.SelectedIndex>0</Picker.SelectedIndex>
                 </Picker>
                 <Entry x:Name="setLimitEntry"></Entry>
                 <Button x:Name="setLimitButton" Text="Set Limit" Clicked="setLimitButtonClicked"></Button>
@@ -23,9 +24,10 @@
                         <x:String>Account Number</x:String>
                         <x:String>Password</x:String>
                     </Picker.Items>
+                    <Picker.SelectedIndex>0</Picker.SelectedIndex>
                 </Picker>
-                <Entry x:Name="oldDetails" Placeholder="Old"></Entry>
-                <Entry x:Name="newDetails" Placeholder="New"></Entry>
+                <Entry x:Name="accountNumber" Placeholder="Account number"></Entry>
+                <Entry x:Name="newDetails" Placeholder="New Account Number"></Entry>
                 <Button x:Name="changeDetailsButton" Text="Change" Clicked="changeDetailsButtonClicked"></Button>
                 <Label x:Name="nameLabelTwo"></Label>
             </StackLayout>
