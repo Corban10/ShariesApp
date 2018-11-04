@@ -12,23 +12,28 @@ namespace ShariesApp.Views
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class AccountManagementPage : ContentPage
 	{
+        private static string currentId = "";
 		public AccountManagementPage ()
 		{
 			InitializeComponent ();
 		}
+        public static bool checkIfAccountIsBlocked(string text)
+        {
+            var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(Convert.ToInt32(MainPage.loggedInUser.accountNumber));
+            foreach (var item in blockedAccountsList)
+                if (item.blockee == Convert.ToInt32(text))
+                {
+                    currentId = item.id;
+                    return true;
+                }
+            return false;
+        }
         private void blockAccountButtonClicked(object sender, EventArgs e)
         {
             blockAccountLabel.Text = "";
             if (Int32.TryParse(blockAccountEntry.Text, out int test)) // check if entry value is valid
             {
-                // check if blocked // make this a method maybe
-                var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(Convert.ToInt32(MainPage.loggedInUser.accountNumber));
-                bool blockeeAlreadyExists = false;
-                foreach (var item in blockedAccountsList) 
-                    if (item.blockee == Convert.ToInt32(blockAccountEntry.Text))
-                        blockeeAlreadyExists = true;
-                // if it doesnt, then block
-                if (!blockeeAlreadyExists) 
+                if (!checkIfAccountIsBlocked(blockAccountEntry.Text)) 
                 {
                     var blockedAccountObject = new BlockedAccounts
                     {
@@ -36,10 +41,6 @@ namespace ShariesApp.Views
                         blockee = Convert.ToInt32(blockAccountEntry.Text)
                     };
                     App.Database.InsertBlockedAccountsAsync(blockedAccountObject);
-                    blockAccountLabel.Text += "Blocked accounts:\n";
-                    foreach (var item in blockedAccountsList)
-                        blockAccountLabel.Text += string.Format("{0}\n", item.blockee);
-                    blockAccountLabel.Text += string.Format("{0}\n", blockAccountEntry.Text);
                     blockAccountLabel.Text = "Account blocked successfully";
                 }
                 else
@@ -49,11 +50,41 @@ namespace ShariesApp.Views
         }
         private void unblockAccountButtonClicked(object sender, EventArgs e)
         {
-
+            unblockAccountLabel.Text = "";
+            if (Int32.TryParse(unblockAccountEntry.Text, out int test)) // check if entry value is valid
+            {
+                if (checkIfAccountIsBlocked(unblockAccountEntry.Text))
+                {
+                    var blockedAccountObject = new BlockedAccounts
+                    {
+                        id = currentId,
+                        blocker = Convert.ToInt32(MainPage.loggedInUser.accountNumber),
+                        blockee = Convert.ToInt32(unblockAccountEntry.Text)
+                    };
+                    App.Database.DeleteBlockedAccountsAsync(blockedAccountObject);
+                    unblockAccountLabel.Text = "Account unblocked successfully";
+                }
+                else
+                    unblockAccountLabel.Text = "Account is not blocked";
+            }
+            unblockAccountEntry.Text = "";
         }
         private void changePasswordButtonClicked(object sender, EventArgs e)
         {
-
+            changePasswordLabel.Text = "";
+            if (!string.IsNullOrWhiteSpace(changePasswordOne.Text) && !string.IsNullOrWhiteSpace(changePasswordTwo.Text))
+            {
+                if (changePasswordOne.Text == changePasswordTwo.Text)
+                {
+                    MainPage.loggedInUser.password = changePasswordOne.Text;
+                    App.Database.UpdateUserDataAsync(MainPage.loggedInUser);
+                    changePasswordLabel.Text = "Password changed";
+                }
+                else
+                    changePasswordLabel.Text = "Passwords do not match";
+            }
+            changePasswordOne.Text = "";
+            changePasswordTwo.Text = "";
         }
     }
 }

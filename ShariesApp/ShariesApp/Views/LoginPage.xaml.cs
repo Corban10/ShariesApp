@@ -34,7 +34,6 @@ namespace ShariesApp
             }
             if (isValid)
             {
-                MainPage.loggedInUser = user;
                 Navigation.InsertPageBefore(new MainPage(), this);
                 await Navigation.PopAsync();
             }
@@ -50,6 +49,7 @@ namespace ShariesApp
 
             if (responseData.password == user.password)
             {
+                MainPage.loggedInUser = responseData;
                 isValid = true;
             }
         } 
