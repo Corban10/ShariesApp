@@ -3,10 +3,24 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShariesApp.Views.SendPage">
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Send Page"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout >
+            <StackLayout Padding="50">
+                <Picker Title="Send:" SelectedIndexChanged="SenderPickerSelectedIndexChanged">
+                    <Picker.Items>
+                        <x:String>Credit</x:String>
+                        <x:String>Texts</x:String>
+                        <x:String>Data</x:String>
+                        <x:String>Minutes</x:String>
+                    </Picker.Items>
+                    <Picker.SelectedIndex>0</Picker.SelectedIndex>
+                </Picker>
+                <Label Text="Send to:"></Label>
+                <Entry x:Name="accountNumberEntry" Placeholder="Account number"></Entry>
+                <Label Text="Amount in:"></Label>
+                <Entry x:Name="sendAmountEntry" Placeholder="Dollar amount"></Entry>
+                <Button x:Name="sendButton" Text="Send" Clicked="SendButtonClicked"></Button>
+                <Label x:Name="sendStatusLabel"></Label>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
