@@ -73,28 +73,23 @@ namespace ShariesApp.Views
         {
             if (checkIsConvertableToInt(oldAccountNUmber.Text)) //check if account number is number
             {
-                var getUserData = App.Database.QueryUserDataById(oldAccountNUmber.Text); //get this users details
-                if (!string.IsNullOrWhiteSpace(getUserData.accountNumber)) //check if returned value is not blank object
+                var getUserData = App.Database.QueryUserDataById(Convert.ToInt32(oldAccountNUmber.Text)); //get this users details
+                if (getUserData.accountNumber > 0) //check if returned value is not blank object
                 {
                     if (checkIsConvertableToInt(newAccountNUmber.Text)) // check if new account number is valid
                     {
                         App.Database.DeleteUserDataAsync(getUserData); //delete old row
-                        getUserData.accountNumber = newAccountNUmber.Text; // change account number
+                        getUserData.accountNumber = Convert.ToInt32(newAccountNUmber.Text); // change account number
                         App.Database.InsertUserDataAsync(getUserData); //insert new row
                     }
                     //display user values for confirmation
                     nameLabelTwo.Text = "Account number changed successfully";
                 }
                 else
-                {
-
                     nameLabelTwo.Text = "Error";
-                }
             }
             else
-            {
                 nameLabelTwo.Text = "Invalid account number";
-            }
         }
     }
 }

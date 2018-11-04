@@ -12,7 +12,6 @@ namespace ShariesApp
     [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class LoginPage : ContentPage
     {
-        public static bool isValid = false;
         public LoginPage ()
 		{
 			InitializeComponent ();
@@ -23,35 +22,39 @@ namespace ShariesApp
         }
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
-            var user = new UserData
+            if (Int32.TryParse(usernameEntry.Text, out int test))
             {
-                accountNumber = usernameEntry.Text,
-                password = passwordEntry.Text
-            };
-            if (!string.IsNullOrWhiteSpace(user.accountNumber))
-            {
-                AreCredentialsCorrect(user);
-            }
-            if (isValid)
-            {
-                Navigation.InsertPageBefore(new MainPage(), this);
-                await Navigation.PopAsync();
+                var user = new UserData
+                {
+                    accountNumber = Convert.ToInt32(usernameEntry.Text),
+                    password = passwordEntry.Text
+                };
+                if (user.accountNumber > 0)
+                {
+                    if (AreCredentialsCorrect(user))
+                    {
+                        Navigation.InsertPageBefore(new MainPage(), this);
+                        await Navigation.PopAsync();
+                    }
+                    else
+                    {
+                        messageLabel.Text = "Login failed";
+                        passwordEntry.Text = string.Empty;
+                    }
+                }
             }
             else
-            {
-                messageLabel.Text = "Login failed";
-                passwordEntry.Text = string.Empty;
-            }
+                messageLabel.Text = "Invalid Account Number";
         }
-        void AreCredentialsCorrect(UserData user)
+        private bool AreCredentialsCorrect(UserData user)
         {
-            var responseData = App.Database.QueryUserDataById(user.accountNumber); // App.Database.GetUserData(user.id);
-
+            var responseData = App.Database.QueryUserDataById(user.accountNumber);
             if (responseData.password == user.password)
             {
                 MainPage.loggedInUser = responseData;
-                isValid = true;
+                return true;
             }
+            return false;
         } 
     }
 }

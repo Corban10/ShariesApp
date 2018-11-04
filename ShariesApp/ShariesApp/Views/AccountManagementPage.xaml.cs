@@ -19,7 +19,7 @@ namespace ShariesApp.Views
 		}
         public static bool checkIfAccountIsBlocked(string text)
         {
-            var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(Convert.ToInt32(MainPage.loggedInUser.accountNumber));
+            var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(MainPage.loggedInUser.accountNumber);
             foreach (var item in blockedAccountsList)
                 if (item.blockee == Convert.ToInt32(text))
                 {
@@ -37,7 +37,7 @@ namespace ShariesApp.Views
                 {
                     var blockedAccountObject = new BlockedAccounts
                     {
-                        blocker = Convert.ToInt32(MainPage.loggedInUser.accountNumber),
+                        blocker = MainPage.loggedInUser.accountNumber,
                         blockee = Convert.ToInt32(blockAccountEntry.Text)
                     };
                     App.Database.InsertBlockedAccountsAsync(blockedAccountObject);

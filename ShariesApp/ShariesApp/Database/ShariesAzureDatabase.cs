@@ -38,7 +38,7 @@ namespace ShariesApp
             }
         }
         // does same thing as GetUserDataAsync but left it in as an example of a query method
-        public UserData QueryUserDataById(string Id) 
+        public UserData QueryUserDataById(int Id) 
         {
             try
             {
@@ -52,7 +52,7 @@ namespace ShariesApp
                 return new UserData();
             }
         }
-        public async Task<List<UserData>> QueryUserDataByIdAsync(string Id)
+        public async Task<List<UserData>> QueryUserDataByIdAsync(int Id)
         {
             return await userDataTable.Where(item => item.accountNumber == Id).ToListAsync();
         }

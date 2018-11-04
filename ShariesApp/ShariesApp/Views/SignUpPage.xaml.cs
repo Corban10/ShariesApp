@@ -12,7 +12,6 @@ namespace ShariesApp
 	[XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class SignUpPage : ContentPage
     {
-        public static bool signUpSucceeded = false;
 
         public SignUpPage ()
 		{
@@ -20,40 +19,45 @@ namespace ShariesApp
 		}
         async void OnSignUpButtonClicked(object sender, EventArgs e)
         {
-            var user = new UserData
+            if (Int32.TryParse(usernameEntry.Text, out int test))
             {
-                accountNumber = usernameEntry.Text,
-                password = passwordEntry.Text,
-                name = nameEntry.Text
-            };
-            AreDetailsValid(user);
-            if (signUpSucceeded)
-            {
-                var rootPage = Navigation.NavigationStack.FirstOrDefault();
-                if (rootPage != null)
+                var user = new UserData
                 {
-                    App.Database.InsertUserDataAsync(user); //store details in db
-                    App.IsUserLoggedIn = true;
-                    MainPage.loggedInUser = user;
-                    Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());
-                    await Navigation.PopToRootAsync();
+                    accountNumber = Convert.ToInt32(usernameEntry.Text),
+                    password = passwordEntry.Text,
+                    name = nameEntry.Text
+                };
+                if (AreDetailsValid(user))
+                {
+                    var rootPage = Navigation.NavigationStack.FirstOrDefault();
+                    if (rootPage != null)
+                    {
+                        App.Database.InsertUserDataAsync(user); //store details in db
+                        MainPage.loggedInUser = App.Database.QueryUserDataById(user.accountNumber);
+                        App.IsUserLoggedIn = true;
+                        Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());
+                        await Navigation.PopToRootAsync();
+                    }
+                }
+                else
+                {
+                    messageLabel.Text = "Sign up failed";
                 }
             }
             else
-            {
-                messageLabel.Text = "Sign up failed";
-            }
+                messageLabel.Text = "Invalid Account Number";
         }
-        void AreDetailsValid(UserData user)
+        private bool AreDetailsValid(UserData user)
         {
             var responseData = App.Database.QueryUserDataById(user.accountNumber);
-            if (string.IsNullOrWhiteSpace(responseData.accountNumber))
+            if (string.IsNullOrWhiteSpace(responseData.id))
             {
-                if (!string.IsNullOrWhiteSpace(user.accountNumber) && !string.IsNullOrWhiteSpace(user.password) && !string.IsNullOrWhiteSpace(user.name))
+                if (user.accountNumber > 0 && !string.IsNullOrWhiteSpace(user.password) && !string.IsNullOrWhiteSpace(user.name))
                 {
-                    signUpSucceeded = true;
+                    return true;
                 }
             }
+            return false;
         }
     }
 }
