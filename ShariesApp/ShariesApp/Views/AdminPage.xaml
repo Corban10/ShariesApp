@@ -19,15 +19,9 @@
                 <Label x:Name="nameLabel"></Label>
             </StackLayout>
             <StackLayout Margin="50,0,50,50">
-                <Picker Title="Change user:" SelectedIndexChanged="cDetailsSelectedIndexChanged">
-                    <Picker.Items>
-                        <x:String>Account Number</x:String>
-                        <x:String>Password</x:String>
-                    </Picker.Items>
-                    <Picker.SelectedIndex>0</Picker.SelectedIndex>
-                </Picker>
-                <Entry x:Name="accountNumber" Placeholder="Account number"></Entry>
-                <Entry x:Name="newDetails" Placeholder="New Account Number"></Entry>
+                <Label Text="Change Account number"></Label>
+                <Entry x:Name="oldAccountNUmber" Placeholder="Old Account number"></Entry>
+                <Entry x:Name="newAccountNUmber" Placeholder="New Account Number"></Entry>
                 <Button x:Name="changeDetailsButton" Text="Change" Clicked="changeDetailsButtonClicked"></Button>
                 <Label x:Name="nameLabelTwo"></Label>
             </StackLayout>

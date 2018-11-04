@@ -8,6 +8,9 @@ namespace ShariesApp
     public class UserData
     {
         [JsonProperty(PropertyName = "id")]
+        public string id { get; set; }
+
+        [JsonProperty(PropertyName = "accountNumber")]
         public string accountNumber { get; set; }
 
         [JsonProperty(PropertyName = "Password")]

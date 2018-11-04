@@ -15,9 +15,6 @@ namespace ShariesApp.Views
         private static Picker creditLimitPicker;
         private static int clSelectedIndex;
 
-        private static Picker cDetailsPicker;
-        private static int cDetailsSelectedIndex;
-
         public AdminPage ()
 		{
 			InitializeComponent ();
@@ -72,48 +69,26 @@ namespace ShariesApp.Views
         {
             return (!string.IsNullOrWhiteSpace(input) && Int32.TryParse(input, out int e));
         }
-        private void cDetailsSelectedIndexChanged(object sender, EventArgs e)
-        {
-            cDetailsPicker = (Picker)sender;
-            cDetailsSelectedIndex = cDetailsPicker.SelectedIndex;
-            switch (cDetailsSelectedIndex)
-            {
-                case 0:
-                    newDetails.Placeholder = "New Account Number";
-                    break;
-                case 1:
-                    newDetails.Placeholder = "New Password";
-                    break;
-            }
-        }
         private void changeDetailsButtonClicked(object sender, EventArgs e)
         {
-            if (cDetailsSelectedIndex >= 0 && checkIsConvertableToInt(accountNumber.Text)) //check if account number is number
+            if (checkIsConvertableToInt(oldAccountNUmber.Text)) //check if account number is number
             {
-                var getUserData = App.Database.GetUserData(accountNumber.Text); //get this users details
+                var getUserData = App.Database.QueryUserDataById(oldAccountNUmber.Text); //get this users details
                 if (!string.IsNullOrWhiteSpace(getUserData.accountNumber)) //check if returned value is not blank object
                 {
-                    switch (cDetailsSelectedIndex) //picker value, 0 = change account number, 1 = change password
+                    if (checkIsConvertableToInt(newAccountNUmber.Text)) // check if new account number is valid
                     {
-                        case 0:
-                            // cannot change back to the original ac number because azure never perma deletes IDs
-                            if (checkIsConvertableToInt(newDetails.Text)) // check if new account number is valid
-                            {
-                                App.Database.DeleteUserDataAsync(getUserData); //delete old row
-                                getUserData.accountNumber = newDetails.Text; // change account number
-                                App.Database.InsertUserDataAsync(getUserData); //insert new row
-                            }
-                            break;
-                        case 1:
-                            if (!string.IsNullOrWhiteSpace(newDetails.Text)) // check if password is valid
-                            {
-                                getUserData.password = newDetails.Text;
-                                App.Database.UpdateUserDataAsync(getUserData); //update row
-                            }
-                            break;
+                        App.Database.DeleteUserDataAsync(getUserData); //delete old row
+                        getUserData.accountNumber = newAccountNUmber.Text; // change account number
+                        App.Database.InsertUserDataAsync(getUserData); //insert new row
                     }
                     //display user values for confirmation
-                    nameLabelTwo.Text = string.Format("Account number: {0}\nPassword: {1}", getUserData.accountNumber, getUserData.password); 
+                    nameLabelTwo.Text = "Account number changed successfully";
+                }
+                else
+                {
+
+                    nameLabelTwo.Text = "Error";
                 }
             }
             else
