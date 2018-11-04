@@ -3,9 +3,12 @@ using Newtonsoft.Json;
 
 namespace ShariesPrototype
 {
-    public class TransactionDataModel
+    public class TransactionData
     {
         [JsonProperty(PropertyName = "id")]
+        public string id { get; set; } 
+
+        [JsonProperty(PropertyName = "transactionID")]
         public int transactionID { get; set; } //PK
 
         [JsonProperty(PropertyName = "transactionSource")]

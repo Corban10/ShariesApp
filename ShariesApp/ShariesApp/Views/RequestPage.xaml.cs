@@ -16,5 +16,15 @@ namespace ShariesApp.Views
 		{
 			InitializeComponent ();
 		}
-	}
+
+        private void RequestPickerSelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void RequestButtonClicked(object sender, EventArgs e)
+        {
+
+        }
+    }
 }

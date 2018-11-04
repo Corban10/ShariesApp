@@ -3,11 +3,14 @@ using Newtonsoft.Json;
 
 namespace ShariesPrototype
 {
-    public class UserCreditModel
+    public class UserCredit
     // This is the only model that isn't included in our ERD and class diagram
     // because it represents the main systems database
     {
         [JsonProperty(PropertyName = "id")]
+        public string id { get; set; }
+
+        [JsonProperty(PropertyName = "accountNumber")]
         public int accountNumber { get; set; }
 
         [JsonProperty(PropertyName = "creditAmount")]
