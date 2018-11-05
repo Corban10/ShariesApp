@@ -1,7 +1,7 @@
 using System;
 using Newtonsoft.Json;
 
-namespace ShariesPrototype
+namespace ShariesApp
 {
     public class UserCredit
     // This is the only model that isn't included in our ERD and class diagram

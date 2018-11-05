@@ -1,15 +1,12 @@
 using System;
 using Newtonsoft.Json;
 
-namespace ShariesPrototype
+namespace ShariesApp
 {
-    public class TransactionData
+    public class NotificationData
     {
         [JsonProperty(PropertyName = "id")]
-        public string id { get; set; } 
-
-        [JsonProperty(PropertyName = "transactionID")]
-        public int transactionID { get; set; } //PK
+        public string id { get; set; }  //PK
 
         [JsonProperty(PropertyName = "transactionSource")]
         public int transactionSource { get; set; } //FK1

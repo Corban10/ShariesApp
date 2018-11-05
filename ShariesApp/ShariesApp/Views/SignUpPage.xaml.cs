@@ -32,7 +32,10 @@ namespace ShariesApp
                     var rootPage = Navigation.NavigationStack.FirstOrDefault();
                     if (rootPage != null)
                     {
-                        App.Database.InsertUserDataAsync(user); //store details in db
+                        //create user row in db
+                        App.Database.InsertUserDataAsync(user); 
+
+                        // set loggedInUser
                         MainPage.loggedInUser = App.Database.QueryUserDataById(user.accountNumber);
                         App.IsUserLoggedIn = true;
                         Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());

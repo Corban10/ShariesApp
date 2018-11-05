@@ -13,10 +13,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="$(MSBuildThisFileDirectory)Database\ShariesAzureDatabase.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\BlockedAccountsModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\BlockedAccounts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SystemData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\TransactionDataModel.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Models\UserCreditModel.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\UserCredit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AccountManagementPage.xaml.cs">
       <DependentUpon>AccountManagementPage.xaml</DependentUpon>
       <SubType>Code</SubType>

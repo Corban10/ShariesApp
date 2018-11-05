@@ -9,10 +9,13 @@ namespace ShariesApp
 {
     public class ShariesAzureDatabase
     {
+        #region Tables
         MobileServiceClient _client;
         IMobileServiceTable<UserData> userDataTable;
         IMobileServiceTable<SystemData> systemDataTable;
         IMobileServiceTable<BlockedAccounts> blockedAccountsTable;
+        IMobileServiceTable<UserCredit> userCreditTable;
+        IMobileServiceTable<NotificationData> transactionDataTable;
 
         public ShariesAzureDatabase()
         {
@@ -20,7 +23,10 @@ namespace ShariesApp
             this.userDataTable = _client.GetTable<UserData>();
             this.systemDataTable = _client.GetTable<SystemData>();
             this.blockedAccountsTable = _client.GetTable<BlockedAccounts>();
+            this.userCreditTable = _client.GetTable<UserCredit>();
+            this.transactionDataTable = _client.GetTable<NotificationData>();
         }
+        #endregion
 
         #region UserDataQueries
         public UserData GetUserData(string Id)
@@ -100,6 +106,63 @@ namespace ShariesApp
         public async void DeleteBlockedAccountsAsync(BlockedAccounts bAccounts)
         {
             await blockedAccountsTable.DeleteAsync(bAccounts);
+        }
+        #endregion
+
+        #region CreditDataQueries
+        // query
+        public List<UserCredit> QueryCreditDataByAccountNumber(int aNum)
+        {
+            var userCredit = Task.Run(async () =>
+            {
+                return await userCreditTable.Where(item => item.accountNumber == aNum).ToListAsync();
+            }).Result;
+            return userCredit;
+        }
+        // insert
+        public async void InsertCreditDataAsync(UserCredit uCredit)
+        {
+            await userCreditTable.InsertAsync(uCredit);
+        }
+        // update
+        public async void UpdateCreditDataAsync(UserCredit uCredit)
+        {
+            await userCreditTable.UpdateAsync(uCredit);
+        }
+        // delete
+        public async void DeleteCreditDataAsync(UserCredit uCredit)
+        {
+            await userCreditTable.DeleteAsync(uCredit);
+        }
+        #endregion
+
+        #region TransactionDataQueries
+        // query
+        public List<NotificationData> QueryTransactionDataBySource(int aNum)
+        {
+            var transaction = Task.Run(async () =>
+            {
+                return await transactionDataTable.Where(item => item.transactionSource == aNum).ToListAsync();
+            }).Result;
+            return transaction;
+        }
+        public List<NotificationData> QueryTransactionDataByDestination(int aNum)
+        {
+            var transaction = Task.Run(async () =>
+            {
+                return await transactionDataTable.Where(item => item.transactionDestination == aNum).ToListAsync();
+            }).Result;
+            return transaction;
+        }
+        // insert
+        public async void InsertTransactionDataAsync(NotificationData transaction)
+        {
+            await transactionDataTable.InsertAsync(transaction);
+        }
+        // update
+        public async void UpdateTransactionDataAsync(NotificationData transaction)
+        {
+            await transactionDataTable.UpdateAsync(transaction);
         }
         #endregion
     }
