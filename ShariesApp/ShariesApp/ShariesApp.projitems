@@ -15,6 +15,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Database\ShariesAzureDatabase.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\BlockedAccounts.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\SystemData.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Models\NotificationData.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Models\UserCredit.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Views\AccountManagementPage.xaml.cs">
       <DependentUpon>AccountManagementPage.xaml</DependentUpon>
