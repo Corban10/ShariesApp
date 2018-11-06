@@ -21,6 +21,6 @@ namespace ShariesApp
         public double requestAmount{ get; set; }
 
         [JsonProperty(PropertyName = "notificationStatus")]
-        public bool notificationStatus { get; set; } // sent or not sent?
+        public bool notificationStatus { get; set; } // false = not sent, true = sent
     }
 }
