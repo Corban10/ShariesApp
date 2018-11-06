@@ -3,24 +3,24 @@ using Newtonsoft.Json;
 
 namespace ShariesApp
 {
-    public class NotificationData
+    public class RequestData
     {
         [JsonProperty(PropertyName = "id")]
         public string id { get; set; }  //PK
 
-        [JsonProperty(PropertyName = "transactionSource")]
-        public int transactionSource { get; set; } //FK1
+        [JsonProperty(PropertyName = "requestSource")]
+        public int requestSource { get; set; } //FK1
 
-        [JsonProperty(PropertyName = "transactionDestination")]
-        public int transactionDestination { get; set; } //FK2
+        [JsonProperty(PropertyName = "requestDestination")]
+        public int requestDestination { get; set; } //FK2
 
-        [JsonProperty(PropertyName = "transactionType")]
-        public string transactionType { get; set; }
+        [JsonProperty(PropertyName = "requestType")]
+        public string requestType { get; set; }
 
-        [JsonProperty(PropertyName = "transactionAmount")]
-        public double transactionAmount{ get; set; }
+        [JsonProperty(PropertyName = "requestAmount")]
+        public double requestAmount{ get; set; }
 
-        [JsonProperty(PropertyName = "NotificationStatus")]
+        [JsonProperty(PropertyName = "notificationStatus")]
         public bool notificationStatus { get; set; } // sent or not sent?
     }
 }

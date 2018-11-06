@@ -15,7 +15,7 @@ namespace ShariesApp
         IMobileServiceTable<SystemData> systemDataTable;
         IMobileServiceTable<BlockedAccounts> blockedAccountsTable;
         IMobileServiceTable<UserCredit> userCreditTable;
-        IMobileServiceTable<NotificationData> transactionDataTable;
+        IMobileServiceTable<RequestData> requestDataTable;
 
         public ShariesAzureDatabase()
         {
@@ -24,7 +24,7 @@ namespace ShariesApp
             this.systemDataTable = _client.GetTable<SystemData>();
             this.blockedAccountsTable = _client.GetTable<BlockedAccounts>();
             this.userCreditTable = _client.GetTable<UserCredit>();
-            this.transactionDataTable = _client.GetTable<NotificationData>();
+            this.requestDataTable = _client.GetTable<RequestData>();
         }
         #endregion
 
@@ -136,33 +136,33 @@ namespace ShariesApp
         }
         #endregion
 
-        #region TransactionDataQueries
+        #region RequestDataQueries
         // query
-        public List<NotificationData> QueryTransactionDataBySource(int aNum)
+        public List<RequestData> QueryRequestDataBySource(int aNum)
         {
-            var transaction = Task.Run(async () =>
+            var request = Task.Run(async () =>
             {
-                return await transactionDataTable.Where(item => item.transactionSource == aNum).ToListAsync();
+                return await requestDataTable.Where(item => item.requestSource == aNum).ToListAsync();
             }).Result;
-            return transaction;
+            return request;
         }
-        public List<NotificationData> QueryTransactionDataByDestination(int aNum)
+        public List<RequestData> QueryRequestDataByDestination(int aNum)
         {
-            var transaction = Task.Run(async () =>
+            var request = Task.Run(async () =>
             {
-                return await transactionDataTable.Where(item => item.transactionDestination == aNum).ToListAsync();
+                return await requestDataTable.Where(item => item.requestDestination == aNum).ToListAsync();
             }).Result;
-            return transaction;
+            return request;
         }
         // insert
-        public async void InsertTransactionDataAsync(NotificationData transaction)
+        public async void InsertRequestDataAsync(RequestData data)
         {
-            await transactionDataTable.InsertAsync(transaction);
+            await requestDataTable.InsertAsync(data);
         }
         // update
-        public async void UpdateTransactionDataAsync(NotificationData transaction)
+        public async void UpdateRequestDataAsync(RequestData data)
         {
-            await transactionDataTable.UpdateAsync(transaction);
+            await requestDataTable.UpdateAsync(data);
         }
         #endregion
     }
