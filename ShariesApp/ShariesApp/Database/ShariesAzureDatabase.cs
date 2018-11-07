@@ -214,6 +214,11 @@ namespace ShariesApp
         {
             await requestDataTable.UpdateAsync(data);
         }
+        // delete
+        public async void DeleteRequestDataAsync(RequestData data)
+        {
+            await requestDataTable.DeleteAsync(data);
+        }
         #endregion
     }
 }

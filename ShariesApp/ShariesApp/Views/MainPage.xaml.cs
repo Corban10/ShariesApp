@@ -15,16 +15,18 @@ namespace ShariesApp.Views
         public MainPage ()
         {
             InitializeComponent();
-            // set loggedInUser // not working?
             var response = App.Database.QueryUserDataByAccountNumber(App.CurrentAccountNumber);
+            // if admin
             if (response.accountNumber <= 20 && response.accountNumber > 0)
             {
                 this.Children.Add(new AdminPage() { Title = "Admin" });
             }
+            // only here as temporary fix to bug where user data query wasnt returning in time
             else if (response.accountNumber == 0)
             {
-                this.Children.Add(new BalancePage() { Title = "Balance" }); // only here as temporary fix to bug
+                this.Children.Add(new BalancePage() { Title = "Balance" }); 
             }
+            // else is user
             else
             {
                 this.Children.Add(new BalancePage() { Title = "Balance" });
@@ -32,7 +34,7 @@ namespace ShariesApp.Views
                 this.Children.Add(new RequestPage() { Title = "Requests" });
                 this.Children.Add(new AccountManagementPage() { Title = "Manage Account" });
             }
-            Debug.WriteLine(response.accountNumber);
+            // Debug.WriteLine(response.accountNumber);
         }
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {

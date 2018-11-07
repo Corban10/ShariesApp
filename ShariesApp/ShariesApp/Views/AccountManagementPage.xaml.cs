@@ -17,12 +17,12 @@ namespace ShariesApp.Views
 		{
 			InitializeComponent ();
 		}
-        public static bool checkIfAccountIsBlocked(string text)
+        private bool checkIfAccountIsBlocked(string blockee)
         {
             var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(App.CurrentAccountNumber);
             foreach (var item in blockedAccountsList)
             {
-                if (item.blockee == Convert.ToInt32(text))
+                if (item.blockee == Convert.ToInt32(blockee))
                 {
                     currentId = item.id;
                     return true;
