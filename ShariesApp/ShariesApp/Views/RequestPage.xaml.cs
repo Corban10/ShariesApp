@@ -25,10 +25,10 @@ namespace ShariesApp.Views
             // check if entry text are valid numbers
             if (App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(requestAmountEntry.Text))
             {
-                // check if valid account
                 var accountDataResponse = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text));
                 var creditDataResponse = App.Database.QueryCreditDataByAccountNumber(App.CurrentAccountNumber);
                 var limitDataResponse = App.Database.GetSystemData("1");
+                // check if valid account
                 if (accountDataResponse.accountNumber > 0)
                 {
                     RequestData newRequest = new RequestData
