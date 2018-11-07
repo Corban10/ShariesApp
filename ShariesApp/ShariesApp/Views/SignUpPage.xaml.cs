@@ -38,8 +38,8 @@ namespace ShariesApp
                 if (AreDetailsValid(user))
                 {
                     //create user row in db
-                    App.Database.InsertUserData(user);
-                    App.Database.InsertCreditData(userCredit);
+                    App.Database.InsertUserDataAsync(user);
+                    App.Database.InsertCreditDataAsync(userCredit);
                     App.CurrentAccountNumber = user.accountNumber;
                     App.IsUserLoggedIn = true;
                     var rootPage = Navigation.NavigationStack.FirstOrDefault();

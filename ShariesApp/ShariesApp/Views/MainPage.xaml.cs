@@ -21,6 +21,10 @@ namespace ShariesApp.Views
             {
                 this.Children.Add(new AdminPage() { Title = "Admin" });
             }
+            else if (response.accountNumber == 0)
+            {
+                this.Children.Add(new BalancePage() { Title = "Balance" }); // only here as temporary fix to bug
+            }
             else
             {
                 this.Children.Add(new BalancePage() { Title = "Balance" });
