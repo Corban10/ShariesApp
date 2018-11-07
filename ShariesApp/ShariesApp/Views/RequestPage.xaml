@@ -17,7 +17,7 @@
                 <Label Text="Request from:"></Label>
                 <Entry x:Name="accountNumberEntry" Placeholder="Account number"></Entry>
                 <Label Text="Amount in:"></Label>
-                <Entry x:Name="requestAmountEntry" Placeholder="Dollar amount"></Entry>
+                <Entry x:Name="requestAmountEntry" Placeholder="Dollars"></Entry>
                 <Button x:Name="requestButton" Text="Request" Clicked="RequestButtonClicked"></Button>
                 <Label x:Name="requestStatusLabel"></Label>
             </StackLayout>

@@ -48,7 +48,7 @@ namespace ShariesApp
         }
         private bool AreCredentialsCorrect(UserData user)
         {
-            var responseData = App.Database.QueryUserDataById(user.accountNumber);
+            var responseData = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
             if (responseData.password == user.password)
             {
                 MainPage.loggedInUser = responseData;

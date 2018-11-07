@@ -17,7 +17,7 @@
                 <Label Text="Send to:"></Label>
                 <Entry x:Name="accountNumberEntry" Placeholder="Account number"></Entry>
                 <Label Text="Amount in:"></Label>
-                <Entry x:Name="sendAmountEntry" Placeholder="Dollar amount"></Entry>
+                <Entry x:Name="sendAmountEntry" Placeholder="Dollars"></Entry>
                 <Button x:Name="sendButton" Text="Send" Clicked="SendButtonClicked"></Button>
                 <Label x:Name="sendStatusLabel"></Label>
             </StackLayout>

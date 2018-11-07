@@ -13,10 +13,10 @@ namespace ShariesApp
         [JsonProperty(PropertyName = "accountNumber")]
         public int accountNumber { get; set; }
 
-        [JsonProperty(PropertyName = "Password")]
+        [JsonProperty(PropertyName = "password")]
         public string password { get; set; }
 
-        [JsonProperty(PropertyName = "Name")]
+        [JsonProperty(PropertyName = "pame")]
         public string name { get; set; }
     }
 }

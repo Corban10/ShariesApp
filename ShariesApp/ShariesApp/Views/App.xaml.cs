@@ -26,8 +26,6 @@ namespace ShariesApp
                 MainPage = new NavigationPage(new MainPage());
             }
 		}
-        //public static ShariesAzureDatabase Database = new ShariesAzureDatabase();
-
         public static ShariesAzureDatabase Database
         {
             get
@@ -39,9 +37,16 @@ namespace ShariesApp
                 return database;
             }
         }
+        public static bool checkIsConvertableToDouble(string input)
+        {
+            return (!string.IsNullOrWhiteSpace(input) && Double.TryParse(input, out double e));
+        }
+        public static bool checkIsConvertableToInt(string input)
+        {
+            return (!string.IsNullOrWhiteSpace(input) && Int32.TryParse(input, out int e));
+        }
         protected override void OnStart ()
 		{
-            //Debug.WriteLine(Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "Sharies.db3"));
 			// Handle when your app starts
 		}
 

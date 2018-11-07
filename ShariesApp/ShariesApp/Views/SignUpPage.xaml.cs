@@ -27,16 +27,24 @@ namespace ShariesApp
                     password = passwordEntry.Text,
                     name = nameEntry.Text
                 };
+                var userCredit = new UserCredit
+                {
+                    accountNumber = Convert.ToInt32(usernameEntry.Text),
+                    creditAmount = 1000,
+                    textAmount = 1000,
+                    dataAmount = 1000,
+                    minutesAmount = 1000
+                };
                 if (AreDetailsValid(user))
                 {
                     var rootPage = Navigation.NavigationStack.FirstOrDefault();
                     if (rootPage != null)
                     {
                         //create user row in db
-                        App.Database.InsertUserDataAsync(user); 
-
+                        App.Database.InsertUserData(user);
+                        App.Database.InsertCreditData(userCredit);
                         // set loggedInUser
-                        MainPage.loggedInUser = App.Database.QueryUserDataById(user.accountNumber);
+                        MainPage.loggedInUser = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
                         App.IsUserLoggedIn = true;
                         Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());
                         await Navigation.PopToRootAsync();
@@ -52,7 +60,7 @@ namespace ShariesApp
         }
         private bool AreDetailsValid(UserData user)
         {
-            var responseData = App.Database.QueryUserDataById(user.accountNumber);
+            var responseData = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
             if (string.IsNullOrWhiteSpace(responseData.id))
             {
                 if (user.accountNumber > 0 && !string.IsNullOrWhiteSpace(user.password) && !string.IsNullOrWhiteSpace(user.name))

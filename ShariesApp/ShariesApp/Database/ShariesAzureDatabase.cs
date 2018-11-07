@@ -43,13 +43,13 @@ namespace ShariesApp
                 return new UserData();
             }
         }
-        // does same thing as GetUserDataAsync but left it in as an example of a query method
-        public UserData QueryUserDataById(int Id) 
+        // query
+        public UserData QueryUserDataByAccountNumber(int aNum) 
         {
             try
             {
                 var userData = Task.Run(async () => {
-                    return await userDataTable.Where(item => item.accountNumber == Id).ToListAsync();
+                    return await userDataTable.Where(item => item.accountNumber == aNum).ToListAsync();
                 }).Result.First();
                 return userData;
             }
@@ -58,17 +58,38 @@ namespace ShariesApp
                 return new UserData();
             }
         }
-        public async Task<List<UserData>> QueryUserDataByIdAsync(int Id)
+        public async Task<List<UserData>> QueryUserDataByAccountNumberAsync(int aNum)
         {
-            return await userDataTable.Where(item => item.accountNumber == Id).ToListAsync();
+            return await userDataTable.Where(item => item.accountNumber == aNum).ToListAsync();
+        }
+        // insert
+        public void InsertUserData(UserData user)
+        {
+            Task.Run(async () => {
+                await userDataTable.InsertAsync(user);
+            });
         }
         public async void InsertUserDataAsync(UserData user)
         {
             await userDataTable.InsertAsync(user);
         }
+        // update
+        public void UpdateUserData(UserData user)
+        {
+            Task.Run(async () => {
+                await userDataTable.UpdateAsync(user);
+            });
+        }
         public async void UpdateUserDataAsync(UserData user)
         {
             await userDataTable.UpdateAsync(user);
+        }
+        // delete
+        public void DeleteUserData(UserData user)
+        {
+            Task.Run(async () => {
+                await userDataTable.DeleteAsync(user);
+            });
         }
         public async void DeleteUserDataAsync(UserData user)
         {
@@ -83,6 +104,10 @@ namespace ShariesApp
                 return await systemDataTable.LookupAsync(Id);
             }).Result;
             return systemData;
+        }
+        public async Task<SystemData> GetSystemDataAsync(string Id)
+        {
+            return await systemDataTable.LookupAsync(Id);
         }
         public async void UpdateSystemDataAsync(SystemData systemData)
         {
@@ -111,25 +136,50 @@ namespace ShariesApp
 
         #region CreditDataQueries
         // query
-        public List<UserCredit> QueryCreditDataByAccountNumber(int aNum)
+        public UserCredit QueryCreditDataByAccountNumber(int aNum)
         {
-            var userCredit = Task.Run(async () =>
+            try
             {
-                return await userCreditTable.Where(item => item.accountNumber == aNum).ToListAsync();
-            }).Result;
-            return userCredit;
+                var userCredit = Task.Run(async () =>
+                {
+                    return await userCreditTable.Where(item => item.accountNumber == aNum).ToListAsync();
+                }).Result.First();
+                return userCredit;
+            }
+            catch
+            {
+                return new UserCredit();
+            }
         }
         // insert
+        public void InsertCreditData(UserCredit uCredit)
+        {
+            Task.Run(async () => {
+                await userCreditTable.InsertAsync(uCredit);
+            });
+        }
         public async void InsertCreditDataAsync(UserCredit uCredit)
         {
             await userCreditTable.InsertAsync(uCredit);
         }
         // update
+        public void UpdateCreditData(UserCredit uCredit)
+        {
+            Task.Run(async () => {
+                await userCreditTable.UpdateAsync(uCredit);
+            });
+        }
         public async void UpdateCreditDataAsync(UserCredit uCredit)
         {
             await userCreditTable.UpdateAsync(uCredit);
         }
         // delete
+        public void DeleteCreditData(UserCredit uCredit)
+        {
+            Task.Run(async () => {
+                await userCreditTable.DeleteAsync(uCredit);
+            });
+        }
         public async void DeleteCreditDataAsync(UserCredit uCredit)
         {
             await userCreditTable.DeleteAsync(uCredit);
