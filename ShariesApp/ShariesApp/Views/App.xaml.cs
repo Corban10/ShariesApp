@@ -10,14 +10,13 @@ namespace ShariesApp
 {
 	public partial class App : Application
     {
-        public static UserData loggedInUser;
-        public static SystemData limits;
+        public static UserData loggedInUser { get; set; }
+        public static SystemData limits { get; set; }
         static ShariesAzureDatabase database;
         public static bool IsUserLoggedIn { get; set; }
         public App ()
 		{
 			InitializeComponent();
-
             if (!IsUserLoggedIn)
             {
                 MainPage = new NavigationPage(new LoginPage());
@@ -47,9 +46,9 @@ namespace ShariesApp
             return (!string.IsNullOrWhiteSpace(input) && Int32.TryParse(input, out int e));
         }
         protected override void OnStart ()
-		{
-            // Handle when your app starts
+        {
             limits = Database.GetSystemData("1");
+            // Handle when your app starts
         }
 
 		protected override void OnSleep ()

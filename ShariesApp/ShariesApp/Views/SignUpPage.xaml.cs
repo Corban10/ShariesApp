@@ -17,9 +17,9 @@ namespace ShariesApp
 		{
 			InitializeComponent ();
 		}
-        async void OnSignUpButtonClicked(object sender, EventArgs e)
+        async void OnSignUpButtonClicked(object sender, EventArgs e) // bug here somewhere where signup doesnt load loggedInUser properly
         {
-            if (Int32.TryParse(usernameEntry.Text, out int test))
+            if (App.checkIsConvertableToInt(usernameEntry.Text))
             {
                 var user = new UserData
                 {
@@ -37,15 +37,14 @@ namespace ShariesApp
                 };
                 if (AreDetailsValid(user))
                 {
+                    //create user row in db
+                    App.Database.InsertUserData(user);
+                    App.Database.InsertCreditData(userCredit);
+                    App.loggedInUser = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
+                    App.IsUserLoggedIn = true;
                     var rootPage = Navigation.NavigationStack.FirstOrDefault();
                     if (rootPage != null)
                     {
-                        //create user row in db
-                        App.Database.InsertUserData(user);
-                        App.Database.InsertCreditData(userCredit);
-                        // set loggedInUser
-                        App.loggedInUser = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
-                        App.IsUserLoggedIn = true;
                         Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());
                         await Navigation.PopToRootAsync();
                     }

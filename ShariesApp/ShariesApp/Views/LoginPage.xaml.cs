@@ -22,7 +22,7 @@ namespace ShariesApp
         }
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
-            if (Int32.TryParse(usernameEntry.Text, out int test))
+            if (App.checkIsConvertableToInt(usernameEntry.Text))
             {
                 var user = new UserData
                 {

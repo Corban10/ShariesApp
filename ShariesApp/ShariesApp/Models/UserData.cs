@@ -16,7 +16,7 @@ namespace ShariesApp
         [JsonProperty(PropertyName = "password")]
         public string password { get; set; }
 
-        [JsonProperty(PropertyName = "pame")]
+        [JsonProperty(PropertyName = "name")]
         public string name { get; set; }
     }
 }

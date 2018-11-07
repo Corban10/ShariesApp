@@ -61,7 +61,7 @@ namespace ShariesApp.Views
             }
             setLimitEntry.Text = "";
         }
-        private void changeDetailsButtonClicked(object sender, EventArgs e) //BUG: user credit updates but not user data
+        private void changeDetailsButtonClicked(object sender, EventArgs e) //BUG: user credit updates but not user data sometimes
         {
             if (App.checkIsConvertableToInt(oldAccountNUmber.Text) && App.checkIsConvertableToInt(newAccountNUmber.Text)) //check if entry text is valid number
             {

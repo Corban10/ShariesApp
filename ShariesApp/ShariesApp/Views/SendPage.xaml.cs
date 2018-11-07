@@ -25,9 +25,10 @@ namespace ShariesApp.Views
             {
                 var myBalance = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(App.loggedInUser.accountNumber)); //query my balance
                 var destinationAccount = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text)); //query destination account
+                App.limits = App.Database.GetSystemData("1");
                 double amount = Convert.ToDouble(sendAmountEntry.Text); //convert entry to double
                 bool send = false;
-                if (destinationAccount.accountNumber > 0 && myBalance.accountNumber > 0)
+                if (destinationAccount.accountNumber > 0 && myBalance.accountNumber > 0 && myBalance.accountNumber != destinationAccount.accountNumber)
                 {
                     switch (senderSelectedIndex) // get balance based on 
                     {
@@ -74,7 +75,7 @@ namespace ShariesApp.Views
                         sendStatusLabel.Text = "Cannot send that much";
                 }
                 else
-                    sendStatusLabel.Text = "Account does not exist";
+                    sendStatusLabel.Text = "Invalid account";
             }
             else
                 sendStatusLabel.Text = "Invalid account number";

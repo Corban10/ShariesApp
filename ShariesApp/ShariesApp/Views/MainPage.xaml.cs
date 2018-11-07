@@ -14,13 +14,15 @@ namespace ShariesApp.Views
         public MainPage ()
         {
             InitializeComponent();
-            if (App.loggedInUser.accountNumber <= 20)
+            // set loggedInUser // not working?
+            App.loggedInUser = App.Database.QueryUserDataByAccountNumber(App.loggedInUser.accountNumber);
+            if (App.loggedInUser.accountNumber <= 20 && App.loggedInUser.accountNumber > 0)
             {
                 this.Children.Add(new AdminPage() { Title = "Admin" });
             }
             else
             {
-                // this.Children.Add(new BalancePage() { Title = "Balance" });
+                this.Children.Add(new BalancePage() { Title = "Balance" });
                 this.Children.Add(new SendPage() { Title = "Send" });
                 this.Children.Add(new RequestPage() { Title = "Requests" });
                 this.Children.Add(new AccountManagementPage() { Title = "Manage Account" });
