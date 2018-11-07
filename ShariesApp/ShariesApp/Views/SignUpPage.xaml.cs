@@ -40,7 +40,7 @@ namespace ShariesApp
                     //create user row in db
                     App.Database.InsertUserData(user);
                     App.Database.InsertCreditData(userCredit);
-                    App.loggedInUser = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
+                    App.currentAccountNumber = user.accountNumber;
                     App.IsUserLoggedIn = true;
                     var rootPage = Navigation.NavigationStack.FirstOrDefault();
                     if (rootPage != null)

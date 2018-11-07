@@ -15,8 +15,8 @@ namespace ShariesApp.Views
         {
             InitializeComponent();
             // set loggedInUser // not working?
-            App.loggedInUser = App.Database.QueryUserDataByAccountNumber(App.loggedInUser.accountNumber);
-            if (App.loggedInUser.accountNumber <= 20 && App.loggedInUser.accountNumber > 0)
+            var response = App.Database.QueryUserDataByAccountNumber(App.currentAccountNumber);
+            if (response.accountNumber <= 20 && response.accountNumber > 0)
             {
                 this.Children.Add(new AdminPage() { Title = "Admin" });
             }
@@ -31,7 +31,7 @@ namespace ShariesApp.Views
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
             App.IsUserLoggedIn = false;
-            App.loggedInUser = new UserData();
+            App.currentAccountNumber = 0;
             App.limits = new SystemData();
             Navigation.InsertPageBefore(new LoginPage(), this);
             await Navigation.PopAsync();

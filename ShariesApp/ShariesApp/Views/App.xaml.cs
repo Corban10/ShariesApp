@@ -10,9 +10,9 @@ namespace ShariesApp
 {
 	public partial class App : Application
     {
-        public static UserData loggedInUser { get; set; }
         public static SystemData limits { get; set; }
         static ShariesAzureDatabase database;
+        public static int currentAccountNumber { get; set; }
         public static bool IsUserLoggedIn { get; set; }
         public App ()
 		{

@@ -23,7 +23,7 @@ namespace ShariesApp.Views
             sendStatusLabel.Text = "";
             if (App.checkIsConvertableToInt(accountNumberEntry.Text) && App.checkIsConvertableToDouble(sendAmountEntry.Text)) // check if entries are valid numbers
             {
-                var myBalance = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(App.loggedInUser.accountNumber)); //query my balance
+                var myBalance = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(App.currentAccountNumber)); //query my balance
                 var destinationAccount = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text)); //query destination account
                 App.limits = App.Database.GetSystemData("1");
                 double amount = Convert.ToDouble(sendAmountEntry.Text); //convert entry to double

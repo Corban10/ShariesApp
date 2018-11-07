@@ -19,13 +19,15 @@ namespace ShariesApp.Views
 		}
         public static bool checkIfAccountIsBlocked(string text)
         {
-            var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(App.loggedInUser.accountNumber);
+            var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(App.currentAccountNumber);
             foreach (var item in blockedAccountsList)
+            {
                 if (item.blockee == Convert.ToInt32(text))
                 {
                     currentId = item.id;
                     return true;
                 }
+            }
             return false;
         }
         private void blockAccountButtonClicked(object sender, EventArgs e)
@@ -37,7 +39,7 @@ namespace ShariesApp.Views
                 {
                     var blockedAccountObject = new BlockedAccounts
                     {
-                        blocker = App.loggedInUser.accountNumber,
+                        blocker = App.currentAccountNumber,
                         blockee = Convert.ToInt32(blockAccountEntry.Text)
                     };
                     App.Database.InsertBlockedAccountsAsync(blockedAccountObject);
@@ -58,7 +60,7 @@ namespace ShariesApp.Views
                     var blockedAccountObject = new BlockedAccounts
                     {
                         id = currentId,
-                        blocker = Convert.ToInt32(App.loggedInUser.accountNumber),
+                        blocker = Convert.ToInt32(App.currentAccountNumber),
                         blockee = Convert.ToInt32(unblockAccountEntry.Text)
                     };
                     App.Database.DeleteBlockedAccountsAsync(blockedAccountObject);
@@ -76,8 +78,9 @@ namespace ShariesApp.Views
             {
                 if (changePasswordOne.Text == changePasswordTwo.Text)
                 {
-                    App.loggedInUser.password = changePasswordOne.Text;
-                    App.Database.UpdateUserDataAsync(App.loggedInUser);
+                    var response = App.Database.QueryUserDataByAccountNumber(App.currentAccountNumber);
+                    response.password = changePasswordOne.Text;
+                    App.Database.UpdateUserDataAsync(response);
                     changePasswordLabel.Text = "Password changed";
                 }
                 else
