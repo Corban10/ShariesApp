@@ -3,27 +3,29 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShariesApp.SignUpPage">
     <ContentPage.Content>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="StartAndExpand">
-                <Label Text="Account Number" />
-                <Entry x:Name="usernameEntry" />
-                <Label Text="Password" />
-                <Entry x:Name="passwordEntry" IsPassword="true" />
-                <Label Text="Name" />
-                <Entry x:Name="nameEntry" />
-                <Button Text="Sign Up" Clicked="SignUp" />
-                <Label x:Name="messageLabel" />
-            </StackLayout>
-        </Grid>
+        <ScrollView>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="1" Grid.Column="1" VerticalOptions="StartAndExpand">
+                    <Label Text="Account Number" />
+                    <Entry x:Name="usernameEntry" />
+                    <Label Text="Password" />
+                    <Entry x:Name="passwordEntry" IsPassword="true" />
+                    <Label Text="Name" />
+                    <Entry x:Name="nameEntry" />
+                    <Button Text="Sign Up" Clicked="SignUp" />
+                    <Label x:Name="messageLabel" />
+                </StackLayout>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

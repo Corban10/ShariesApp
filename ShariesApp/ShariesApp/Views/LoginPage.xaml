@@ -6,25 +6,27 @@
         <ToolbarItem Text="Sign Up" Clicked="OnSignUpButtonClicked" />
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="2*" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
-                <Label Text="Account Number" />
-                <Entry x:Name="usernameEntry" />
-                <Label Text="Password" />
-                <Entry x:Name="passwordEntry" IsPassword="true" />
-                <Button Text="Login" Clicked="LoginToSystem" />
-                <Label x:Name="messageLabel" />
-            </StackLayout>
-        </Grid>
+        <ScrollView>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="2*" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Vertical">
+                    <Label Text="Account Number" />
+                    <Entry x:Name="usernameEntry" />
+                    <Label Text="Password" />
+                    <Entry x:Name="passwordEntry" IsPassword="true" />
+                    <Button Text="Login" Clicked="LoginToSystem" />
+                    <Label x:Name="messageLabel" />
+                </StackLayout>
+            </Grid>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
