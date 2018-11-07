@@ -18,7 +18,7 @@ namespace ShariesApp.Views
 		{
 			InitializeComponent ();
         }
-        private void SendButtonClicked(object sender, EventArgs e)
+        private void SendCredit(object sender, EventArgs e)
         {
             sendStatusLabel.Text = "";
             if (App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(sendAmountEntry.Text)) // check if entries are valid numbers

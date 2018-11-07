@@ -5,7 +5,7 @@
     <ContentPage.Content>
         <StackLayout >
             <StackLayout Padding="50">
-                <Picker Title="Set Limit for:" SelectedIndexChanged="setLimitSelectedIndexChanged">
+                <Picker Title="Set Limit for:" SelectedIndexChanged="SetLimitSelectedIndexChanged">
                     <Picker.Items>
                         <x:String>Credit</x:String>
                         <x:String>Texts</x:String>
@@ -15,14 +15,14 @@
                     <Picker.SelectedIndex>0</Picker.SelectedIndex>
                 </Picker>
                 <Entry x:Name="setLimitEntry"></Entry>
-                <Button x:Name="setLimitButton" Text="Set Limit" Clicked="setLimitButtonClicked"></Button>
+                <Button x:Name="setLimitButton" Text="Set Limit" Clicked="SetNewCreditLimit"></Button>
                 <Label x:Name="nameLabel"></Label>
             </StackLayout>
             <StackLayout Margin="50,0,50,50">
                 <Label Text="Change Account number"></Label>
                 <Entry x:Name="oldAccountNUmber" Placeholder="Old Account number"></Entry>
                 <Entry x:Name="newAccountNUmber" Placeholder="New Account Number"></Entry>
-                <Button x:Name="changeDetailsButton" Text="Change" Clicked="changeDetailsButtonClicked"></Button>
+                <Button x:Name="changeDetailsButton" Text="Change" Clicked="ChangeAccountNumber"></Button>
                 <Label x:Name="nameLabelTwo"></Label>
             </StackLayout>
         </StackLayout>

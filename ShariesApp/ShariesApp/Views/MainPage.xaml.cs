@@ -36,7 +36,7 @@ namespace ShariesApp.Views
             }
             // Debug.WriteLine(response.accountNumber);
         }
-        async void OnLogoutButtonClicked(object sender, EventArgs e)
+        async void LogOutOfSystem(object sender, EventArgs e)
         {
             App.IsUserLoggedIn = false;
             App.CurrentAccountNumber = 0;

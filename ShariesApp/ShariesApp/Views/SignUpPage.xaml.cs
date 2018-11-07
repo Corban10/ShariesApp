@@ -17,7 +17,7 @@ namespace ShariesApp
 		{
 			InitializeComponent ();
 		}
-        async void OnSignUpButtonClicked(object sender, EventArgs e) // bug here somewhere where signup doesnt load loggedInUser properly
+        async void SignUp(object sender, EventArgs e) // bug here somewhere where signup doesnt load loggedInUser properly
         {
             if (App.CheckIsConvertableToInt(usernameEntry.Text))
             {

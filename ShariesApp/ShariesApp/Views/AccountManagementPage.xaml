@@ -8,19 +8,19 @@
                 <Label Text="Change password"></Label>
                 <Entry x:Name="changePasswordOne" Placeholder="New password"></Entry>
                 <Entry x:Name="changePasswordTwo" Placeholder="Repeat new password"></Entry>
-                <Button x:Name="changePasswordButton" Text="Change" Clicked="changePasswordButtonClicked"></Button>
+                <Button x:Name="changePasswordButton" Text="Change" Clicked="ChangePassword"></Button>
                 <Label x:Name="changePasswordLabel"></Label>
             </StackLayout>
             <StackLayout Margin="50,0,50,0">
                 <Label Text="Block user"></Label>
                 <Entry x:Name="blockAccountEntry" Placeholder="Users account number"></Entry>
-                <Button x:Name="blockAccountButton" Text="Block" Clicked="blockAccountButtonClicked"></Button>
+                <Button x:Name="blockAccountButton" Text="Block" Clicked="BlockAccount"></Button>
                 <Label x:Name="blockAccountLabel"></Label>
             </StackLayout>
             <StackLayout Margin="50,0,50,0">
                 <Label Text="Unblock user"></Label>
                 <Entry x:Name="unblockAccountEntry" Placeholder="Users account number"></Entry>
-                <Button x:Name="unblockAccountButton" Text="Unblock" Clicked="unblockAccountButtonClicked"></Button>
+                <Button x:Name="unblockAccountButton" Text="Unblock" Clicked="UnblockAccount"></Button>
                 <Label x:Name="unblockAccountLabel"></Label>
             </StackLayout>
         </StackLayout>

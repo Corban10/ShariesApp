@@ -20,7 +20,7 @@ namespace ShariesApp
         {
             await Navigation.PushAsync(new SignUpPage());
         }
-        async void OnLoginButtonClicked(object sender, EventArgs e)
+        async void LoginToSystem(object sender, EventArgs e)
         {
             if (App.CheckIsConvertableToInt(usernameEntry.Text))
             {

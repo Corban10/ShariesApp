@@ -19,12 +19,12 @@ namespace ShariesApp.Views
 		{
 			InitializeComponent ();
 		}
-        private void setLimitSelectedIndexChanged(object sender, EventArgs e)
+        private void SetLimitSelectedIndexChanged(object sender, EventArgs e)
         {
             creditLimitPicker = (Picker)sender;
             clSelectedIndex = creditLimitPicker.SelectedIndex;
         }
-        private void setLimitButtonClicked(object sender, EventArgs e)
+        private void SetNewCreditLimit(object sender, EventArgs e)
         {
             if (clSelectedIndex >= 0) // if picker selection valid
             {
@@ -61,7 +61,7 @@ namespace ShariesApp.Views
             }
             setLimitEntry.Text = "";
         }
-        private void changeDetailsButtonClicked(object sender, EventArgs e) //BUG: user credit updates but not user data sometimes
+        private void ChangeAccountNumber(object sender, EventArgs e) //BUG: user credit updates but not user data sometimes
         {
             if (App.CheckIsConvertableToInt(oldAccountNUmber.Text) && App.CheckIsConvertableToInt(newAccountNUmber.Text)) //check if entry text is valid number
             {

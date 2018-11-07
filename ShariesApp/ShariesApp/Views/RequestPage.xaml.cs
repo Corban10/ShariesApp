@@ -19,7 +19,7 @@ namespace ShariesApp.Views
 		{
 			InitializeComponent ();
 		}
-        private void RequestButtonClicked(object sender, EventArgs e)
+        private void RequestCredit(object sender, EventArgs e)
         {
             requestStatusLabel.Text = "";
             // check if entry text are valid numbers

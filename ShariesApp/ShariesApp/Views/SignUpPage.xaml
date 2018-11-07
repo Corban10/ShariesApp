@@ -21,7 +21,7 @@
                 <Entry x:Name="passwordEntry" IsPassword="true" />
                 <Label Text="Name" />
                 <Entry x:Name="nameEntry" />
-                <Button Text="Sign Up" Clicked="OnSignUpButtonClicked" />
+                <Button Text="Sign Up" Clicked="SignUp" />
                 <Label x:Name="messageLabel" />
             </StackLayout>
         </Grid>

@@ -17,7 +17,7 @@ namespace ShariesApp.Views
 		{
 			InitializeComponent ();
 		}
-        private bool checkIfAccountIsBlocked(string blockee)
+        private bool CheckIfAccountIsBlocked(string blockee)
         {
             var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(App.CurrentAccountNumber);
             foreach (var item in blockedAccountsList)
@@ -30,12 +30,12 @@ namespace ShariesApp.Views
             }
             return false;
         }
-        private void blockAccountButtonClicked(object sender, EventArgs e)
+        private void BlockAccount(object sender, EventArgs e)
         {
             blockAccountLabel.Text = "";
             if (Int32.TryParse(blockAccountEntry.Text, out int test)) // check if entry value is valid
             {
-                if (!checkIfAccountIsBlocked(blockAccountEntry.Text)) 
+                if (!CheckIfAccountIsBlocked(blockAccountEntry.Text)) 
                 {
                     var blockedAccountObject = new BlockedAccounts
                     {
@@ -50,12 +50,12 @@ namespace ShariesApp.Views
             }
             blockAccountEntry.Text = "";
         }
-        private void unblockAccountButtonClicked(object sender, EventArgs e)
+        private void UnblockAccount(object sender, EventArgs e)
         {
             unblockAccountLabel.Text = "";
             if (Int32.TryParse(unblockAccountEntry.Text, out int test)) // check if entry value is valid
             {
-                if (checkIfAccountIsBlocked(unblockAccountEntry.Text))
+                if (CheckIfAccountIsBlocked(unblockAccountEntry.Text))
                 {
                     var blockedAccountObject = new BlockedAccounts
                     {
@@ -71,7 +71,7 @@ namespace ShariesApp.Views
             }
             unblockAccountEntry.Text = "";
         }
-        private void changePasswordButtonClicked(object sender, EventArgs e)
+        private void ChangePassword(object sender, EventArgs e)
         {
             changePasswordLabel.Text = "";
             if (!string.IsNullOrWhiteSpace(changePasswordOne.Text) && !string.IsNullOrWhiteSpace(changePasswordTwo.Text))

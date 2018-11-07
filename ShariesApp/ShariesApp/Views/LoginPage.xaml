@@ -22,7 +22,7 @@
                 <Entry x:Name="usernameEntry" />
                 <Label Text="Password" />
                 <Entry x:Name="passwordEntry" IsPassword="true" />
-                <Button Text="Login" Clicked="OnLoginButtonClicked" />
+                <Button Text="Login" Clicked="LoginToSystem" />
                 <Label x:Name="messageLabel" />
             </StackLayout>
         </Grid>
