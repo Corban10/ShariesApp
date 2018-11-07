@@ -28,30 +28,30 @@ namespace ShariesApp.Views
         {
             if (clSelectedIndex >= 0) // if picker selection valid
             {
-                MainPage.limits = App.Database.GetSystemData("1"); // get system data
+                App.limits = App.Database.GetSystemData("1"); // get system data
                 if (App.checkIsConvertableToDouble(setLimitEntry.Text)) // check if valid value
                 {
                     switch (clSelectedIndex) // picker value selection
                     {
                         case 0:
-                            MainPage.limits.creditLimit = Convert.ToDouble(setLimitEntry.Text); 
+                            App.limits.creditLimit = Convert.ToDouble(setLimitEntry.Text); 
                             break;
                         case 1:
-                            MainPage.limits.textLimit = Convert.ToDouble(setLimitEntry.Text);
+                            App.limits.textLimit = Convert.ToDouble(setLimitEntry.Text);
                             break;
                         case 2:
-                            MainPage.limits.dataLimit = Convert.ToDouble(setLimitEntry.Text);
+                            App.limits.dataLimit = Convert.ToDouble(setLimitEntry.Text);
                             break;
                         case 3:
-                            MainPage.limits.minutesLimit = Convert.ToDouble(setLimitEntry.Text);
+                            App.limits.minutesLimit = Convert.ToDouble(setLimitEntry.Text);
                             break;
                     }
-                    App.Database.UpdateSystemDataAsync(MainPage.limits); //update row
+                    App.Database.UpdateSystemDataAsync(App.limits); //update row
                     nameLabel.Text = string.Format("Credit limit: {0}\nText limit: {1}\nData limit: {2}\nMinutes limit: {3}\n",
-                        MainPage.limits.creditLimit,
-                        MainPage.limits.textLimit,
-                        MainPage.limits.dataLimit,
-                        MainPage.limits.minutesLimit
+                        App.limits.creditLimit,
+                        App.limits.textLimit,
+                        App.limits.dataLimit,
+                        App.limits.minutesLimit
                         ); //display new value(s) to label
                 }
                 else

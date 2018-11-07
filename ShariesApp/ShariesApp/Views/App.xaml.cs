@@ -10,7 +10,8 @@ namespace ShariesApp
 {
 	public partial class App : Application
     {
-        // static ShariesDataBase database
+        public static UserData loggedInUser;
+        public static SystemData limits;
         static ShariesAzureDatabase database;
         public static bool IsUserLoggedIn { get; set; }
         public App ()
@@ -47,8 +48,9 @@ namespace ShariesApp
         }
         protected override void OnStart ()
 		{
-			// Handle when your app starts
-		}
+            // Handle when your app starts
+            limits = Database.GetSystemData("1");
+        }
 
 		protected override void OnSleep ()
 		{

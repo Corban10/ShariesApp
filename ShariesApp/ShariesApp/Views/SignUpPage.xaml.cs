@@ -44,7 +44,7 @@ namespace ShariesApp
                         App.Database.InsertUserData(user);
                         App.Database.InsertCreditData(userCredit);
                         // set loggedInUser
-                        MainPage.loggedInUser = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
+                        App.loggedInUser = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
                         App.IsUserLoggedIn = true;
                         Navigation.InsertPageBefore(new MainPage(), Navigation.NavigationStack.First());
                         await Navigation.PopToRootAsync();

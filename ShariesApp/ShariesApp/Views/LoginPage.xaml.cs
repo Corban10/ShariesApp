@@ -33,6 +33,7 @@ namespace ShariesApp
                 {
                     if (AreCredentialsCorrect(user))
                     {
+                        App.IsUserLoggedIn = true;
                         Navigation.InsertPageBefore(new MainPage(), this);
                         await Navigation.PopAsync();
                     }
@@ -51,7 +52,7 @@ namespace ShariesApp
             var responseData = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
             if (responseData.password == user.password)
             {
-                MainPage.loggedInUser = responseData;
+                App.loggedInUser = responseData;
                 return true;
             }
             return false;

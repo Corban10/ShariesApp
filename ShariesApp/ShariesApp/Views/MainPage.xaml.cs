@@ -11,14 +11,10 @@ namespace ShariesApp.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MainPage : TabbedPage
     {
-        public static UserData loggedInUser;
-        public static SystemData limits;
         public MainPage ()
         {
             InitializeComponent();
-            bool isAdmin = loggedInUser.accountNumber <= 20;
-            limits = App.Database.GetSystemData("1");
-            if (isAdmin)
+            if (App.loggedInUser.accountNumber <= 20)
             {
                 this.Children.Add(new AdminPage() { Title = "Admin" });
             }
@@ -33,8 +29,8 @@ namespace ShariesApp.Views
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
             App.IsUserLoggedIn = false;
-            loggedInUser = new UserData();
-            limits = new SystemData();
+            App.loggedInUser = new UserData();
+            App.limits = new SystemData();
             Navigation.InsertPageBefore(new LoginPage(), this);
             await Navigation.PopAsync();
         }
