@@ -3,24 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShariesApp.Views.RequestPage">
     <ContentPage.Content>
-        <StackLayout >
-            <StackLayout Padding="50">
-                <Picker Title="Request:" SelectedIndexChanged="RequestPickerSelectedIndexChanged">
-                    <Picker.Items>
-                        <x:String>Credit</x:String>
-                        <x:String>Texts</x:String>
-                        <x:String>Data</x:String>
-                        <x:String>Minutes</x:String>
-                    </Picker.Items>
-                    <Picker.SelectedIndex>0</Picker.SelectedIndex>
-                </Picker>
-                <Label Text="Request from:"></Label>
-                <Entry x:Name="accountNumberEntry" Placeholder="Account number"></Entry>
-                <Label Text="Amount in:"></Label>
-                <Entry x:Name="requestAmountEntry" Placeholder="Dollars"></Entry>
-                <Button x:Name="requestButton" Text="Request" Clicked="RequestCredit"></Button>
-                <Label x:Name="requestStatusLabel"></Label>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Padding="50">
+                    <Picker Title="Request:" SelectedIndexChanged="RequestPickerSelectedIndexChanged">
+                        <Picker.Items>
+                            <x:String>Credit</x:String>
+                            <x:String>Texts</x:String>
+                            <x:String>Data</x:String>
+                            <x:String>Minutes</x:String>
+                        </Picker.Items>
+                        <Picker.SelectedIndex>0</Picker.SelectedIndex>
+                    </Picker>
+                    <Label Text="Request from:"></Label>
+                    <Entry x:Name="accountNumberEntry" Placeholder="Account number"></Entry>
+                    <Label Text="Amount in:"></Label>
+                    <Entry x:Name="requestAmountEntry" Placeholder="Dollars"></Entry>
+                    <Button x:Name="requestButton" Text="Request" Clicked="RequestCredit"></Button>
+                    <Label x:Name="requestStatusLabel"></Label>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

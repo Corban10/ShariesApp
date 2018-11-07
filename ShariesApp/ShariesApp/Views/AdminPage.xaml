@@ -3,28 +3,30 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShariesApp.Views.AdminPage">
     <ContentPage.Content>
-        <StackLayout >
-            <StackLayout Padding="50">
-                <Picker Title="Set Limit for:" SelectedIndexChanged="SetLimitSelectedIndexChanged">
-                    <Picker.Items>
-                        <x:String>Credit</x:String>
-                        <x:String>Texts</x:String>
-                        <x:String>Data</x:String>
-                        <x:String>Minutes</x:String>
-                    </Picker.Items>
-                    <Picker.SelectedIndex>0</Picker.SelectedIndex>
-                </Picker>
-                <Entry x:Name="setLimitEntry"></Entry>
-                <Button x:Name="setLimitButton" Text="Set Limit" Clicked="SetNewCreditLimit"></Button>
-                <Label x:Name="nameLabel"></Label>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Padding="50">
+                    <Picker Title="Set Limit for:" SelectedIndexChanged="SetLimitSelectedIndexChanged">
+                        <Picker.Items>
+                            <x:String>Credit</x:String>
+                            <x:String>Texts</x:String>
+                            <x:String>Data</x:String>
+                            <x:String>Minutes</x:String>
+                        </Picker.Items>
+                        <Picker.SelectedIndex>0</Picker.SelectedIndex>
+                    </Picker>
+                    <Entry x:Name="setLimitEntry"></Entry>
+                    <Button x:Name="setLimitButton" Text="Set Limit" Clicked="SetNewCreditLimit"></Button>
+                    <Label x:Name="nameLabel"></Label>
+                </StackLayout>
+                <StackLayout Margin="50,0,50,50">
+                    <Label Text="Change Account number"></Label>
+                    <Entry x:Name="oldAccountNUmber" Placeholder="Old Account number"></Entry>
+                    <Entry x:Name="newAccountNUmber" Placeholder="New Account Number"></Entry>
+                    <Button x:Name="changeDetailsButton" Text="Change" Clicked="ChangeAccountNumber"></Button>
+                    <Label x:Name="nameLabelTwo"></Label>
+                </StackLayout>
             </StackLayout>
-            <StackLayout Margin="50,0,50,50">
-                <Label Text="Change Account number"></Label>
-                <Entry x:Name="oldAccountNUmber" Placeholder="Old Account number"></Entry>
-                <Entry x:Name="newAccountNUmber" Placeholder="New Account Number"></Entry>
-                <Button x:Name="changeDetailsButton" Text="Change" Clicked="ChangeAccountNumber"></Button>
-                <Label x:Name="nameLabelTwo"></Label>
-            </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

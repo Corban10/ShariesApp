@@ -3,24 +3,26 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ShariesApp.Views.SendPage">
     <ContentPage.Content>
-        <StackLayout >
-            <StackLayout Padding="50">
-                <Picker Title="Send:" SelectedIndexChanged="SenderPickerSelectedIndexChanged">
-                    <Picker.Items>
-                        <x:String>Credit</x:String>
-                        <x:String>Texts</x:String>
-                        <x:String>Data</x:String>
-                        <x:String>Minutes</x:String>
-                    </Picker.Items>
-                    <Picker.SelectedIndex>0</Picker.SelectedIndex>
-                </Picker>
-                <Label Text="Send to:"></Label>
-                <Entry x:Name="accountNumberEntry" Placeholder="Account number"></Entry>
-                <Label Text="Amount in:"></Label>
-                <Entry x:Name="sendAmountEntry" Placeholder="Dollars"></Entry>
-                <Button x:Name="sendButton" Text="Send" Clicked="SendCredit"></Button>
-                <Label x:Name="sendStatusLabel"></Label>
+        <ScrollView>
+            <StackLayout>
+                <StackLayout Padding="50">
+                    <Picker Title="Send:" SelectedIndexChanged="SenderPickerSelectedIndexChanged">
+                        <Picker.Items>
+                            <x:String>Credit</x:String>
+                            <x:String>Texts</x:String>
+                            <x:String>Data</x:String>
+                            <x:String>Minutes</x:String>
+                        </Picker.Items>
+                        <Picker.SelectedIndex>0</Picker.SelectedIndex>
+                    </Picker>
+                    <Label Text="Send to:"></Label>
+                    <Entry x:Name="accountNumberEntry" Placeholder="Account number"></Entry>
+                    <Label Text="Amount in:"></Label>
+                    <Entry x:Name="sendAmountEntry" Placeholder="Dollars"></Entry>
+                    <Button x:Name="sendButton" Text="Send" Clicked="SendCredit"></Button>
+                    <Label x:Name="sendStatusLabel"></Label>
+                </StackLayout>
             </StackLayout>
-        </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>
