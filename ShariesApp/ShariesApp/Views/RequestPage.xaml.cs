@@ -20,7 +20,7 @@ namespace ShariesApp.Views
 		}
         private void RequestButtonClicked(object sender, EventArgs e)
         {
-            if(App.checkIsConvertableToInt(accountNumberEntry.Text) && App.checkIsConvertableToDouble(requestAmountEntry.Text))
+            if(App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(requestAmountEntry.Text))
             {
                 //App.Database.InsertRequestDataAsync()
             }

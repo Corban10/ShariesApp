@@ -19,7 +19,7 @@ namespace ShariesApp
 		}
         async void OnSignUpButtonClicked(object sender, EventArgs e) // bug here somewhere where signup doesnt load loggedInUser properly
         {
-            if (App.checkIsConvertableToInt(usernameEntry.Text))
+            if (App.CheckIsConvertableToInt(usernameEntry.Text))
             {
                 var user = new UserData
                 {
@@ -40,7 +40,7 @@ namespace ShariesApp
                     //create user row in db
                     App.Database.InsertUserData(user);
                     App.Database.InsertCreditData(userCredit);
-                    App.currentAccountNumber = user.accountNumber;
+                    App.CurrentAccountNumber = user.accountNumber;
                     App.IsUserLoggedIn = true;
                     var rootPage = Navigation.NavigationStack.FirstOrDefault();
                     if (rootPage != null)

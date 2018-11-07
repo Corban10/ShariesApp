@@ -28,30 +28,30 @@ namespace ShariesApp.Views
         {
             if (clSelectedIndex >= 0) // if picker selection valid
             {
-                App.limits = App.Database.GetSystemData("1"); // get system data
-                if (App.checkIsConvertableToDouble(setLimitEntry.Text)) // check if valid value
+                var limits = App.Database.GetSystemData("1"); // get system data
+                if (App.CheckIsConvertableToDouble(setLimitEntry.Text)) // check if valid value
                 {
                     switch (clSelectedIndex) // picker value selection
                     {
                         case 0:
-                            App.limits.creditLimit = Convert.ToDouble(setLimitEntry.Text); 
+                            limits.creditLimit = Convert.ToDouble(setLimitEntry.Text); 
                             break;
                         case 1:
-                            App.limits.textLimit = Convert.ToDouble(setLimitEntry.Text);
+                            limits.textLimit = Convert.ToDouble(setLimitEntry.Text);
                             break;
                         case 2:
-                            App.limits.dataLimit = Convert.ToDouble(setLimitEntry.Text);
+                            limits.dataLimit = Convert.ToDouble(setLimitEntry.Text);
                             break;
                         case 3:
-                            App.limits.minutesLimit = Convert.ToDouble(setLimitEntry.Text);
+                            limits.minutesLimit = Convert.ToDouble(setLimitEntry.Text);
                             break;
                     }
-                    App.Database.UpdateSystemDataAsync(App.limits); //update row
+                    App.Database.UpdateSystemDataAsync(limits); //update row
                     nameLabel.Text = string.Format("Credit limit: {0}\nText limit: {1}\nData limit: {2}\nMinutes limit: {3}\n",
-                        App.limits.creditLimit,
-                        App.limits.textLimit,
-                        App.limits.dataLimit,
-                        App.limits.minutesLimit
+                        limits.creditLimit,
+                        limits.textLimit,
+                        limits.dataLimit,
+                        limits.minutesLimit
                         ); //display new value(s) to label
                 }
                 else
@@ -63,7 +63,7 @@ namespace ShariesApp.Views
         }
         private void changeDetailsButtonClicked(object sender, EventArgs e) //BUG: user credit updates but not user data sometimes
         {
-            if (App.checkIsConvertableToInt(oldAccountNUmber.Text) && App.checkIsConvertableToInt(newAccountNUmber.Text)) //check if entry text is valid number
+            if (App.CheckIsConvertableToInt(oldAccountNUmber.Text) && App.CheckIsConvertableToInt(newAccountNUmber.Text)) //check if entry text is valid number
             {
                 var getUserData = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text)); //get this users details
                 var getCreditData = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text)); //get this users credit details

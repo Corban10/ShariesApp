@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using System.Diagnostics;
 
 namespace ShariesApp.Views
 {
@@ -15,7 +16,7 @@ namespace ShariesApp.Views
         {
             InitializeComponent();
             // set loggedInUser // not working?
-            var response = App.Database.QueryUserDataByAccountNumber(App.currentAccountNumber);
+            var response = App.Database.QueryUserDataByAccountNumber(App.CurrentAccountNumber);
             if (response.accountNumber <= 20 && response.accountNumber > 0)
             {
                 this.Children.Add(new AdminPage() { Title = "Admin" });
@@ -27,12 +28,12 @@ namespace ShariesApp.Views
                 this.Children.Add(new RequestPage() { Title = "Requests" });
                 this.Children.Add(new AccountManagementPage() { Title = "Manage Account" });
             }
+            Debug.WriteLine(response.accountNumber);
         }
         async void OnLogoutButtonClicked(object sender, EventArgs e)
         {
             App.IsUserLoggedIn = false;
-            App.currentAccountNumber = 0;
-            App.limits = new SystemData();
+            App.CurrentAccountNumber = 0;
             Navigation.InsertPageBefore(new LoginPage(), this);
             await Navigation.PopAsync();
         }

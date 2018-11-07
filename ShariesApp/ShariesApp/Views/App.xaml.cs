@@ -10,9 +10,8 @@ namespace ShariesApp
 {
 	public partial class App : Application
     {
-        public static SystemData limits { get; set; }
         static ShariesAzureDatabase database;
-        public static int currentAccountNumber { get; set; }
+        public static int CurrentAccountNumber { get; set; }
         public static bool IsUserLoggedIn { get; set; }
         public App ()
 		{
@@ -37,17 +36,16 @@ namespace ShariesApp
                 return database;
             }
         }
-        public static bool checkIsConvertableToDouble(string input)
+        public static bool CheckIsConvertableToDouble(string input)
         {
             return (!string.IsNullOrWhiteSpace(input) && Double.TryParse(input, out double e));
         }
-        public static bool checkIsConvertableToInt(string input)
+        public static bool CheckIsConvertableToInt(string input)
         {
             return (!string.IsNullOrWhiteSpace(input) && Int32.TryParse(input, out int e));
         }
         protected override void OnStart ()
         {
-            limits = Database.GetSystemData("1");
             // Handle when your app starts
         }
 

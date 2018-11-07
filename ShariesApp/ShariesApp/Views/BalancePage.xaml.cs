@@ -19,8 +19,8 @@ namespace ShariesApp.Views
         }
         public void DisplayBalance()
         {
-            var creditResponse = App.Database.QueryCreditDataByAccountNumber(App.currentAccountNumber);
-            var dataResponse = App.Database.QueryUserDataByAccountNumber(App.currentAccountNumber);
+            var creditResponse = App.Database.QueryCreditDataByAccountNumber(App.CurrentAccountNumber);
+            var dataResponse = App.Database.QueryUserDataByAccountNumber(App.CurrentAccountNumber);
             welcomeLabel.Text = "Welcome, " + dataResponse.name;
             balanceLabel.Text = "";
             balanceLabel.Text += "Current balance:\n";

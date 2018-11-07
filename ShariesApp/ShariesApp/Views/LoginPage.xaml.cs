@@ -22,7 +22,7 @@ namespace ShariesApp
         }
         async void OnLoginButtonClicked(object sender, EventArgs e)
         {
-            if (App.checkIsConvertableToInt(usernameEntry.Text))
+            if (App.CheckIsConvertableToInt(usernameEntry.Text))
             {
                 var user = new UserData
                 {
@@ -33,7 +33,7 @@ namespace ShariesApp
                 {
                     if (AreCredentialsCorrect(user))
                     {
-                        App.currentAccountNumber = user.accountNumber;
+                        App.CurrentAccountNumber = user.accountNumber;
                         App.IsUserLoggedIn = true;
                         Navigation.InsertPageBefore(new MainPage(), this);
                         await Navigation.PopAsync();

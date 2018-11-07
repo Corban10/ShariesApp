@@ -21,11 +21,11 @@ namespace ShariesApp.Views
         private void SendButtonClicked(object sender, EventArgs e)
         {
             sendStatusLabel.Text = "";
-            if (App.checkIsConvertableToInt(accountNumberEntry.Text) && App.checkIsConvertableToDouble(sendAmountEntry.Text)) // check if entries are valid numbers
+            if (App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(sendAmountEntry.Text)) // check if entries are valid numbers
             {
-                var myBalance = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(App.currentAccountNumber)); //query my balance
+                var myBalance = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(App.CurrentAccountNumber)); //query my balance
                 var destinationAccount = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text)); //query destination account
-                App.limits = App.Database.GetSystemData("1");
+                var limits = App.Database.GetSystemData("1");
                 double amount = Convert.ToDouble(sendAmountEntry.Text); //convert entry to double
                 bool send = false;
                 if (destinationAccount.accountNumber > 0 && myBalance.accountNumber > 0 && myBalance.accountNumber != destinationAccount.accountNumber)
@@ -33,7 +33,7 @@ namespace ShariesApp.Views
                     switch (senderSelectedIndex) // get balance based on 
                     {
                         case 0:
-                            if (myBalance.creditAmount > amount && amount < App.limits.creditLimit)
+                            if (myBalance.creditAmount > amount && amount < limits.creditLimit)
                             {
                                 myBalance.creditAmount -= amount;
                                 destinationAccount.creditAmount += amount;
@@ -41,7 +41,7 @@ namespace ShariesApp.Views
                             }
                             break;
                         case 1:
-                            if (myBalance.textAmount > amount && amount < App.limits.textLimit)
+                            if (myBalance.textAmount > amount && amount < limits.textLimit)
                             {
                                 myBalance.textAmount -= amount;
                                 destinationAccount.textAmount += amount;
@@ -49,7 +49,7 @@ namespace ShariesApp.Views
                             }
                             break;
                         case 2:
-                            if (myBalance.dataAmount > amount && amount < App.limits.dataLimit)
+                            if (myBalance.dataAmount > amount && amount < limits.dataLimit)
                             {
                                 myBalance.dataAmount -= amount;
                                 destinationAccount.dataAmount += amount;
@@ -57,7 +57,7 @@ namespace ShariesApp.Views
                             }
                             break;
                         case 3:
-                            if (myBalance.minutesAmount > amount && amount < App.limits.minutesLimit)
+                            if (myBalance.minutesAmount > amount && amount < limits.minutesLimit)
                             {
                                 myBalance.minutesAmount -= amount;
                                 destinationAccount.minutesAmount += amount;

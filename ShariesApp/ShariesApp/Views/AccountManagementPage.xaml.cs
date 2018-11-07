@@ -19,7 +19,7 @@ namespace ShariesApp.Views
 		}
         public static bool checkIfAccountIsBlocked(string text)
         {
-            var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(App.currentAccountNumber);
+            var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(App.CurrentAccountNumber);
             foreach (var item in blockedAccountsList)
             {
                 if (item.blockee == Convert.ToInt32(text))
@@ -39,7 +39,7 @@ namespace ShariesApp.Views
                 {
                     var blockedAccountObject = new BlockedAccounts
                     {
-                        blocker = App.currentAccountNumber,
+                        blocker = App.CurrentAccountNumber,
                         blockee = Convert.ToInt32(blockAccountEntry.Text)
                     };
                     App.Database.InsertBlockedAccountsAsync(blockedAccountObject);
@@ -60,7 +60,7 @@ namespace ShariesApp.Views
                     var blockedAccountObject = new BlockedAccounts
                     {
                         id = currentId,
-                        blocker = Convert.ToInt32(App.currentAccountNumber),
+                        blocker = Convert.ToInt32(App.CurrentAccountNumber),
                         blockee = Convert.ToInt32(unblockAccountEntry.Text)
                     };
                     App.Database.DeleteBlockedAccountsAsync(blockedAccountObject);
@@ -78,7 +78,7 @@ namespace ShariesApp.Views
             {
                 if (changePasswordOne.Text == changePasswordTwo.Text)
                 {
-                    var response = App.Database.QueryUserDataByAccountNumber(App.currentAccountNumber);
+                    var response = App.Database.QueryUserDataByAccountNumber(App.CurrentAccountNumber);
                     response.password = changePasswordOne.Text;
                     App.Database.UpdateUserDataAsync(response);
                     changePasswordLabel.Text = "Password changed";
