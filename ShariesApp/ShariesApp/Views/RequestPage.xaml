@@ -5,7 +5,7 @@
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
-                <StackLayout Margin="50,50,50,0">
+                <StackLayout Margin="25,25,25,0">
                     <Picker Title="Request:" SelectedIndexChanged="RequestPickerSelectedIndexChanged">
                         <Picker.Items>
                             <x:String>Credit</x:String>
@@ -22,38 +22,38 @@
                     <Button x:Name="requestButton" Text="Request" Clicked="RequestCredit"></Button>
                     <Label x:Name="requestStatusLabel"></Label>
                 </StackLayout>
-                <StackLayout HeightRequest="1" BackgroundColor="DimGray" Margin="50,0,50,0"/>
-                <Grid Margin="50,0,50,0">
+                <StackLayout HeightRequest="1" BackgroundColor="DimGray" Margin="25,0,25,0"/>
+                <Grid Margin="25,0,25,0">
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="1.5*"/>
                     </Grid.ColumnDefinitions>
                     <Label Grid.Column="0" Text="Source:" VerticalTextAlignment="Center"></Label>
                     <Label Grid.Column="1" Text="Amount:" VerticalTextAlignment="Center"></Label>
                     <Label Grid.Column="2" Text="Type:" VerticalTextAlignment="Center"></Label>
                 </Grid>
-                <StackLayout HeightRequest="1" BackgroundColor="DimGray" Margin="50,0,50,15"/>
-                <ListView x:Name="listView" ItemsSource="{Binding}" Margin="50,0,50,0">
+                <StackLayout HeightRequest="1" BackgroundColor="DimGray" Margin="25,0,25,15"/>
+                <ListView x:Name="listView" ItemsSource="{Binding}" Margin="25,0,25,0">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
                                 <ViewCell.View>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="1.5*"/>
+                                            <ColumnDefinition Width="1.5*"/>
                                         </Grid.ColumnDefinitions>
                                         <Label x:Name="sourceLabel" Text="{Binding requestSource}" VerticalTextAlignment="Center"></Label>
                                         <Label x:Name="amountLabel" Grid.Column="1" Text="{Binding requestAmount}" VerticalTextAlignment="Center"></Label>
                                         <Label x:Name="typeLabel" Grid.Column="2" Text="{Binding requestType}" VerticalTextAlignment="Center"></Label>
-                                        <Button x:Name="acceptButton" Grid.Column="3" Text="Accept" Clicked="AcceptRequest" CommandParameter="{Binding}"/>
-                                        <Button x:Name="declineButton" Grid.Column="4" Text="Decline" Clicked="DeclineRequest" CommandParameter="{Binding}"/>
+                                        <Button x:Name="acceptButton" Grid.Column="3" Text="Accept" FontSize="Micro" Clicked="AcceptRequest" CommandParameter="{Binding}"/>
+                                        <Button x:Name="declineButton" Grid.Column="4" Text="Decline" FontSize="Micro" Clicked="DeclineRequest" CommandParameter="{Binding}"/>
                                     </Grid>
                                 </ViewCell.View>
                             </ViewCell>
