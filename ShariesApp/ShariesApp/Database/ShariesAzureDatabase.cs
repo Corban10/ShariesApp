@@ -1,8 +1,6 @@
 ﻿using Microsoft.WindowsAzure.MobileServices;
-using System;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Linq;
 
 namespace ShariesApp
@@ -29,20 +27,6 @@ namespace ShariesApp
         #endregion
 
         #region UserDataQueries
-        public UserData GetUserData(string Id)
-        {
-            try
-            {
-                var userData = Task.Run(async () => {
-                    return await userDataTable.LookupAsync(Id);
-                }).Result;
-                return userData;
-            }
-            catch
-            {
-                return new UserData();
-            }
-        }
         // query
         public UserData QueryUserDataByAccountNumber(int aNum) 
         {
@@ -58,39 +42,17 @@ namespace ShariesApp
                 return new UserData();
             }
         }
-        public async Task<List<UserData>> QueryUserDataByAccountNumberAsync(int aNum)
-        {
-            return await userDataTable.Where(item => item.accountNumber == aNum).ToListAsync();
-        }
         // insert
-        public void InsertUserData(UserData user)
-        {
-            Task.Run(async () => {
-                await userDataTable.InsertAsync(user);
-            });
-        }
         public async void InsertUserDataAsync(UserData user)
         {
             await userDataTable.InsertAsync(user);
         }
         // update
-        public void UpdateUserData(UserData user)
-        {
-            Task.Run(async () => {
-                await userDataTable.UpdateAsync(user);
-            });
-        }
         public async void UpdateUserDataAsync(UserData user)
         {
             await userDataTable.UpdateAsync(user);
         }
         // delete
-        public void DeleteUserData(UserData user)
-        {
-            Task.Run(async () => {
-                await userDataTable.DeleteAsync(user);
-            });
-        }
         public async void DeleteUserDataAsync(UserData user)
         {
             await userDataTable.DeleteAsync(user);
@@ -104,10 +66,6 @@ namespace ShariesApp
                 return await systemDataTable.LookupAsync(Id);
             }).Result;
             return systemData;
-        }
-        public async Task<SystemData> GetSystemDataAsync(string Id)
-        {
-            return await systemDataTable.LookupAsync(Id);
         }
         public async void UpdateSystemDataAsync(SystemData systemData)
         {
@@ -152,12 +110,6 @@ namespace ShariesApp
             }
         }
         // insert
-        public void InsertCreditData(UserCredit uCredit)
-        {
-            Task.Run(async () => {
-                await userCreditTable.InsertAsync(uCredit);
-            });
-        }
         public async void InsertCreditDataAsync(UserCredit uCredit)
         {
             await userCreditTable.InsertAsync(uCredit);
@@ -174,12 +126,6 @@ namespace ShariesApp
             await userCreditTable.UpdateAsync(uCredit);
         }
         // delete
-        public void DeleteCreditData(UserCredit uCredit)
-        {
-            Task.Run(async () => {
-                await userCreditTable.DeleteAsync(uCredit);
-            });
-        }
         public async void DeleteCreditDataAsync(UserCredit uCredit)
         {
             await userCreditTable.DeleteAsync(uCredit);
@@ -188,14 +134,6 @@ namespace ShariesApp
 
         #region RequestDataQueries
         // query
-        public List<RequestData> QueryRequestDataBySource(int aNum)
-        {
-            var request = Task.Run(async () =>
-            {
-                return await requestDataTable.Where(item => item.requestSource == aNum).ToListAsync();
-            }).Result;
-            return request;
-        }
         public List<RequestData> QueryRequestDataByDestination(int aNum)
         {
             var request = Task.Run(async () =>
