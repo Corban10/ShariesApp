@@ -21,63 +21,66 @@ namespace ShariesApp.Views
         private async void SendCredit(object sender, EventArgs e)
         {
             sendStatusLabel.Text = "";
-            if (App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(sendAmountEntry.Text)) // check if entries are valid numbers
+            var confirmationResponse = await DisplayAlert("Send", "Are you sure?", "Yes", "No");
+            if (confirmationResponse)
             {
-                var myBalance = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(App.CurrentAccountNumber)); //query my balance
-                var destinationAccount = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text)); //query destination account
-                var limits = App.Database.GetSystemData("1");
-                double amount = Convert.ToDouble(sendAmountEntry.Text); //convert entry to double
-                bool send = false;
-                if (destinationAccount.accountNumber > 0 && myBalance.accountNumber > 0 && myBalance.accountNumber != destinationAccount.accountNumber)
+                if (App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(sendAmountEntry.Text)) // check if entries are valid numbers
                 {
-                    switch (senderSelectedIndex) // get balance based on 
+                    var myBalance = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(App.CurrentAccountNumber)); //query my balance
+                    var destinationAccount = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text)); //query destination account
+                    var limits = App.Database.GetSystemData("1");
+                    double amount = Convert.ToDouble(sendAmountEntry.Text); //convert entry to double
+                    bool send = false;
+                    if (destinationAccount.accountNumber > 0 && myBalance.accountNumber > 0 && myBalance.accountNumber != destinationAccount.accountNumber)
                     {
-                        case 0:
-                            if (myBalance.creditAmount > amount && amount < limits.creditLimit)
-                            {
-                                myBalance.creditAmount -= amount;
-                                destinationAccount.creditAmount += amount;
-                                send = true;
-                            }
-                            break;
-                        case 1:
-                            if (myBalance.textAmount > amount && amount < limits.textLimit)
-                            {
-                                myBalance.textAmount -= amount;
-                                destinationAccount.textAmount += amount;
-                                send = true;
-                            }
-                            break;
-                        case 2:
-                            if (myBalance.dataAmount > amount && amount < limits.dataLimit)
-                            {
-                                myBalance.dataAmount -= amount;
-                                destinationAccount.dataAmount += amount;
-                                send = true;
-                            }
-                            break;
-                        case 3:
-                            if (myBalance.minutesAmount > amount && amount < limits.minutesLimit)
-                            {
-                                myBalance.minutesAmount -= amount;
-                                destinationAccount.minutesAmount += amount;
-                                send = true;
-                            }
-                            break;
+                        switch (senderSelectedIndex) // get balance based on 
+                        {
+                            case 0:
+                                if (myBalance.creditAmount > amount && amount < limits.creditLimit)
+                                {
+                                    myBalance.creditAmount -= amount;
+                                    destinationAccount.creditAmount += amount;
+                                    send = true;
+                                }
+                                break;
+                            case 1:
+                                if (myBalance.textAmount > amount && amount < limits.textLimit)
+                                {
+                                    myBalance.textAmount -= amount;
+                                    destinationAccount.textAmount += amount;
+                                    send = true;
+                                }
+                                break;
+                            case 2:
+                                if (myBalance.dataAmount > amount && amount < limits.dataLimit)
+                                {
+                                    myBalance.dataAmount -= amount;
+                                    destinationAccount.dataAmount += amount;
+                                    send = true;
+                                }
+                                break;
+                            case 3:
+                                if (myBalance.minutesAmount > amount && amount < limits.minutesLimit)
+                                {
+                                    myBalance.minutesAmount -= amount;
+                                    destinationAccount.minutesAmount += amount;
+                                    send = true;
+                                }
+                                break;
+                        }
+                        if (send)
+                        {
+                            App.Database.UpdateCreditDataAsync(myBalance);
+                            App.Database.UpdateCreditDataAsync(destinationAccount);
+                            sendStatusLabel.Text = "Sent";
+                        }
                     }
-                    var confirmationResponse = await DisplayAlert("Send", "Are you sure?", "Yes", "No");
-                    if (confirmationResponse && send)
-                    {
-                        App.Database.UpdateCreditDataAsync(myBalance);
-                        App.Database.UpdateCreditDataAsync(destinationAccount);
-                        sendStatusLabel.Text = "Sent";
-                    }
+                    else
+                        sendStatusLabel.Text = "Invalid account";
                 }
                 else
-                    sendStatusLabel.Text = "Invalid account";
+                    sendStatusLabel.Text = "Invalid account number";
             }
-            else
-                sendStatusLabel.Text = "Invalid account number";
             accountNumberEntry.Text = "";
             sendAmountEntry.Text = "";
         }

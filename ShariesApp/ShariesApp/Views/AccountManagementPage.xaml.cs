@@ -33,12 +33,12 @@ namespace ShariesApp.Views
         private async void BlockAccount(object sender, EventArgs e)
         {
             blockAccountLabel.Text = "";
-            if (Int32.TryParse(blockAccountEntry.Text, out int test)) // check if entry value is valid
+            var confirmationResponse = await DisplayAlert("Block account", "Are you sure?", "Yes", "No");
+            if (confirmationResponse)
             {
-                if (!CheckIfAccountIsBlocked(blockAccountEntry.Text)) 
+                if (Int32.TryParse(blockAccountEntry.Text, out int test)) // check if entry value is valid
                 {
-                    var confirmationResponse = await DisplayAlert("Block account", "Are you sure?", "Yes", "No");
-                    if (confirmationResponse)
+                    if (!CheckIfAccountIsBlocked(blockAccountEntry.Text))
                     {
                         var blockedAccountObject = new BlockedAccounts
                         {
@@ -48,21 +48,21 @@ namespace ShariesApp.Views
                         App.Database.InsertBlockedAccountsAsync(blockedAccountObject);
                         blockAccountLabel.Text = "Account blocked successfully";
                     }
+                    else
+                        blockAccountLabel.Text = "Account is already blocked";
                 }
-                else
-                    blockAccountLabel.Text = "Account is already blocked";
             }
             blockAccountEntry.Text = "";
         }
         private async void UnblockAccount(object sender, EventArgs e)
         {
             unblockAccountLabel.Text = "";
-            if (Int32.TryParse(unblockAccountEntry.Text, out int test)) // check if entry value is valid
+            var confirmationResponse = await DisplayAlert("Unblock account", "Are you sure?", "Yes", "No");
+            if (confirmationResponse)
             {
-                if (CheckIfAccountIsBlocked(unblockAccountEntry.Text))
+                if (Int32.TryParse(unblockAccountEntry.Text, out int test)) // check if entry value is valid
                 {
-                    var confirmationResponse = await DisplayAlert("Unblock account", "Are you sure?", "Yes", "No");
-                    if (confirmationResponse)
+                    if (CheckIfAccountIsBlocked(unblockAccountEntry.Text))
                     {
                         var blockedAccountObject = new BlockedAccounts
                         {
@@ -73,30 +73,30 @@ namespace ShariesApp.Views
                         App.Database.DeleteBlockedAccountsAsync(blockedAccountObject);
                         unblockAccountLabel.Text = "Account unblocked successfully";
                     }
+                    else
+                        unblockAccountLabel.Text = "Account is not blocked";
                 }
-                else
-                    unblockAccountLabel.Text = "Account is not blocked";
             }
             unblockAccountEntry.Text = "";
         }
         private async void ChangePassword(object sender, EventArgs e)
         {
             changePasswordLabel.Text = "";
-            if (!string.IsNullOrWhiteSpace(changePasswordOne.Text) && !string.IsNullOrWhiteSpace(changePasswordTwo.Text))
+            var confirmationResponse = await DisplayAlert("Change password", "Are you sure?", "Yes", "No");
+            if (confirmationResponse)
             {
-                if (changePasswordOne.Text == changePasswordTwo.Text)
+                if (!string.IsNullOrWhiteSpace(changePasswordOne.Text) && !string.IsNullOrWhiteSpace(changePasswordTwo.Text))
                 {
-                    var confirmationResponse = await DisplayAlert("Change password", "Are you sure?", "Yes", "No");
-                    if (confirmationResponse)
+                    if (changePasswordOne.Text == changePasswordTwo.Text)
                     {
                         var response = App.Database.QueryUserDataByAccountNumber(App.CurrentAccountNumber);
                         response.password = changePasswordOne.Text;
                         App.Database.UpdateUserDataAsync(response);
                         changePasswordLabel.Text = "Password changed";
                     }
+                    else
+                        changePasswordLabel.Text = "Passwords do not match";
                 }
-                else
-                    changePasswordLabel.Text = "Passwords do not match";
             }
             changePasswordOne.Text = "";
             changePasswordTwo.Text = "";

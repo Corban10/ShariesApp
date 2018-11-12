@@ -26,29 +26,29 @@ namespace ShariesApp.Views
         }
         private async void SetNewCreditLimit(object sender, EventArgs e)
         {
-            if (clSelectedIndex >= 0) // if picker selection valid
+            var confirmationResponse = await DisplayAlert("Set new limit", "Are you sure?", "Yes", "No");
+            if (confirmationResponse)
             {
-                var limits = App.Database.GetSystemData("1"); // get system data
-                if (App.CheckIsConvertableToDouble(setLimitEntry.Text)) // check if valid value
+                if (clSelectedIndex >= 0) // if picker selection valid
                 {
-                    switch (clSelectedIndex) // picker value selection
+                    var limits = App.Database.GetSystemData("1"); // get system data
+                    if (App.CheckIsConvertableToDouble(setLimitEntry.Text)) // check if valid value
                     {
-                        case 0:
-                            limits.creditLimit = Convert.ToDouble(setLimitEntry.Text); 
-                            break;
-                        case 1:
-                            limits.textLimit = Convert.ToDouble(setLimitEntry.Text);
-                            break;
-                        case 2:
-                            limits.dataLimit = Convert.ToDouble(setLimitEntry.Text);
-                            break;
-                        case 3:
-                            limits.minutesLimit = Convert.ToDouble(setLimitEntry.Text);
-                            break;
-                    }
-                    var confirmationResponse = await DisplayAlert("Set new limit", "Are you sure?", "Yes", "No");
-                    if (confirmationResponse)
-                    {
+                        switch (clSelectedIndex) // picker value selection
+                        {
+                            case 0:
+                                limits.creditLimit = Convert.ToDouble(setLimitEntry.Text);
+                                break;
+                            case 1:
+                                limits.textLimit = Convert.ToDouble(setLimitEntry.Text);
+                                break;
+                            case 2:
+                                limits.dataLimit = Convert.ToDouble(setLimitEntry.Text);
+                                break;
+                            case 3:
+                                limits.minutesLimit = Convert.ToDouble(setLimitEntry.Text);
+                                break;
+                        }
                         App.Database.UpdateSystemDataAsync(limits); //update row
                         nameLabel.Text = string.Format("Credit limit: {0}\nText limit: {1}\nData limit: {2}\nMinutes limit: {3}\n",
                             limits.creditLimit,
@@ -57,29 +57,27 @@ namespace ShariesApp.Views
                             limits.minutesLimit
                             ); //display new value(s) to label  
                     }
-                }
-                else
-                {
-                    nameLabel.Text = "Invalid value";
+                    else
+                        nameLabel.Text = "Invalid value";
                 }
             }
             setLimitEntry.Text = "";
         }
         private async void ChangeAccountNumber(object sender, EventArgs e) //BUG: user credit updates but not user data sometimes
         {
-            if (App.CheckIsConvertableToInt(oldAccountNUmber.Text) && App.CheckIsConvertableToInt(newAccountNUmber.Text)) //check if entry text is valid number
+            var confirmationResponse = await DisplayAlert("Change account number", "Are you sure?", "Yes", "No");
+            if (confirmationResponse)
             {
-                var getUserData = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text)); //get this users details
-                var getCreditData = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text)); //get this users credit details
-
-                bool doesAccountNumberAlreadyExist = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(newAccountNUmber.Text)).accountNumber == 0; //check if already exists
-                bool oldAccountNumberIsNotAdmin = getUserData.accountNumber > 20 && getCreditData.accountNumber > 20; // check if not admin
-                bool newAccountNumberIsNotAdmin = Convert.ToInt32(newAccountNUmber.Text) > 20; // check if destination account number is not admin
-
-                if (oldAccountNumberIsNotAdmin && newAccountNumberIsNotAdmin && doesAccountNumberAlreadyExist)
+                if (App.CheckIsConvertableToInt(oldAccountNUmber.Text) && App.CheckIsConvertableToInt(newAccountNUmber.Text)) //check if entry text is valid number
                 {
-                    var confirmationResponse = await DisplayAlert("Change account number", "Are you sure?", "Yes", "No");
-                    if (confirmationResponse)
+                    var getUserData = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text)); //get this users details
+                    var getCreditData = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text)); //get this users credit details
+
+                    bool doesAccountNumberAlreadyExist = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(newAccountNUmber.Text)).accountNumber == 0; //check if already exists
+                    bool oldAccountNumberIsNotAdmin = getUserData.accountNumber > 20 && getCreditData.accountNumber > 20; // check if not admin
+                    bool newAccountNumberIsNotAdmin = Convert.ToInt32(newAccountNUmber.Text) > 20; // check if destination account number is not admin
+
+                    if (oldAccountNumberIsNotAdmin && newAccountNumberIsNotAdmin && doesAccountNumberAlreadyExist)
                     {
                         getUserData.accountNumber = Convert.ToInt32(newAccountNUmber.Text); // change account number
                         getCreditData.accountNumber = Convert.ToInt32(newAccountNUmber.Text); // change account number
@@ -89,13 +87,13 @@ namespace ShariesApp.Views
                         nameLabelTwo.Text = "Account number changed successfully";
                     }
                     else
-                        nameLabelTwo.Text = "Account number not changed";
+                        nameLabelTwo.Text = "Error";
                 }
                 else
-                    nameLabelTwo.Text = "Error";
+                    nameLabelTwo.Text = "Invalid account number";
             }
             else
-                nameLabelTwo.Text = "Invalid account number";
+                nameLabelTwo.Text = "Account number not changed";
             oldAccountNUmber.Text = "";
             newAccountNUmber.Text = "";
         }

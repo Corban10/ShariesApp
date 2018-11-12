@@ -149,22 +149,76 @@ namespace ShariesApp.Views
                 }
             }
         }
-        private void AcceptRequest(object sender, EventArgs e)
+        private async void AcceptRequest(object sender, EventArgs e)
         {
             var button = (Button)sender;
             var item = (RequestData)button.CommandParameter;
             var position = itemList.IndexOf(item);
+            var requestType = item.requestType;
 
-            // Debug.WriteLine(position);
+            // get requesters balance
+            var requestersCredit = App.Database.QueryCreditDataByAccountNumber(item.requestSource);
+            // get requestee's balance (current user)
+            var requesteeCredit = App.Database.QueryCreditDataByAccountNumber(item.requestDestination);
+            // check type
+            switch (requestType) // picker value selection
+            {
+                case "credit":
+                    if (requesteeCredit.creditAmount > item.requestAmount) // check if we have enough
+                    {
+                        requesteeCredit.creditAmount -= item.requestAmount;
+                        requestersCredit.creditAmount += item.requestAmount;
+                    }
+                    break;
+                case "text":
+                    if (requesteeCredit.textAmount > item.requestAmount) // check if we have enough
+                    {
+                        requesteeCredit.textAmount -= item.requestAmount;
+                        requestersCredit.textAmount += item.requestAmount;
+                    }
+                    break;
+                case "data":
+                    if (requesteeCredit.dataAmount > item.requestAmount) // check if we have enough
+                    {
+                        requesteeCredit.dataAmount -= item.requestAmount;
+                        requestersCredit.dataAmount += item.requestAmount;
+                    }
+                    break;
+                case "minutes":
+                    if (requesteeCredit.minutesAmount > item.requestAmount) // check if we have enough
+                    {
+                        requesteeCredit.minutesAmount -= item.requestAmount;
+                        requestersCredit.minutesAmount += item.requestAmount;
+                    }
+                    break;
+            }
+            var confirmationResponse = await DisplayAlert("Accept Request", "Are you sure?", "Yes", "No");
+            if (confirmationResponse)
+            {
+                // send
+                App.Database.UpdateCreditData(requesteeCredit);
+                App.Database.UpdateCreditData(requestersCredit);
+                // delete request data row
+                App.Database.DeleteRequestDataAsync(itemList[position]);
+                // refresh binding context
+                OnAppearing();
+            }
         }
 
-        private void DeclineRequest(object sender, EventArgs e)
+        private async void DeclineRequest(object sender, EventArgs e)
         {
             var button = (Button)sender;
             var item = (RequestData)button.CommandParameter;
             var position = itemList.IndexOf(item);
 
-            // Debug.WriteLine(position);
+            var confirmationResponse = await DisplayAlert("Decline Request", "Are you sure?", "Yes", "No");
+            if (confirmationResponse)
+            {
+                // delete request data row
+                App.Database.DeleteRequestDataAsync(itemList[position]);
+                // refresh binding context
+                OnAppearing();
+            }
         }
     }
 }
