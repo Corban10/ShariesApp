@@ -25,15 +25,15 @@
                 <StackLayout HeightRequest="1" BackgroundColor="DimGray" Margin="25,0,25,0"/>
                 <Grid Margin="25,0,25,0">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="Auto"/>
-                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="1.5*"/>
-                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="1.25*"/>
+                        <ColumnDefinition Width="1.25*"/>
                     </Grid.ColumnDefinitions>
-                    <Label Grid.Column="0" Text="Source:" VerticalTextAlignment="Center"></Label>
-                    <Label Grid.Column="1" Text="Amount:" VerticalTextAlignment="Center"></Label>
-                    <Label Grid.Column="2" Text="Type:" VerticalTextAlignment="Center"></Label>
+                    <Label Grid.Column="0" Text="Source" VerticalTextAlignment="Center"></Label>
+                    <Label Grid.Column="1" Text="Amount" VerticalTextAlignment="Center"></Label>
+                    <Label Grid.Column="2" Text="Type" VerticalTextAlignment="Center"></Label>
                 </Grid>
                 <StackLayout HeightRequest="1" BackgroundColor="DimGray" Margin="25,0,25,15"/>
                 <ListView x:Name="listView" ItemsSource="{Binding}" Margin="25,0,25,0">
@@ -43,11 +43,11 @@
                                 <ViewCell.View>
                                     <Grid>
                                         <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="Auto"/>
                                             <ColumnDefinition Width="*"/>
                                             <ColumnDefinition Width="*"/>
-                                            <ColumnDefinition Width="1.5*"/>
-                                            <ColumnDefinition Width="1.5*"/>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="1.25*"/>
+                                            <ColumnDefinition Width="1.25*"/>
                                         </Grid.ColumnDefinitions>
                                         <Label x:Name="sourceLabel" Text="{Binding requestSource}" VerticalTextAlignment="Center"></Label>
                                         <Label x:Name="amountLabel" Grid.Column="1" Text="{Binding requestAmount}" VerticalTextAlignment="Center"></Label>
