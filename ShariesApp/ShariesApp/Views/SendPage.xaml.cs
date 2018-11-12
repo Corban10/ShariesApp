@@ -18,7 +18,7 @@ namespace ShariesApp.Views
 		{
 			InitializeComponent ();
         }
-        private void SendCredit(object sender, EventArgs e)
+        private async void SendCredit(object sender, EventArgs e)
         {
             sendStatusLabel.Text = "";
             if (App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(sendAmountEntry.Text)) // check if entries are valid numbers
@@ -65,14 +65,13 @@ namespace ShariesApp.Views
                             }
                             break;
                     }
-                    if (send)
+                    var confirmationResponse = await DisplayAlert("Send", "Are you sure?", "Yes", "No");
+                    if (confirmationResponse && send)
                     {
                         App.Database.UpdateCreditDataAsync(myBalance);
                         App.Database.UpdateCreditDataAsync(destinationAccount);
                         sendStatusLabel.Text = "Sent";
                     }
-                    else
-                        sendStatusLabel.Text = "Cannot send that much";
                 }
                 else
                     sendStatusLabel.Text = "Invalid account";

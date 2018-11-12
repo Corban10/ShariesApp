@@ -18,7 +18,6 @@
                 <StackLayout Grid.Row="1" Grid.Column="1" HorizontalOptions="CenterAndExpand" VerticalOptions="StartAndExpand" Orientation="Vertical">
                     <Label FontSize="Large" x:Name="welcomeLabel" Text="" />
                     <Label FontSize="Medium" x:Name="balanceLabel" Text="" />
-                    <Button Text="Reload balance" Padding="10" HorizontalOptions="FillAndExpand" Clicked="ReloadBalance"/>
                 </StackLayout>
             </Grid>
         </ScrollView>

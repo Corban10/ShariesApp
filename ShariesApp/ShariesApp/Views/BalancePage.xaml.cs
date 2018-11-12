@@ -15,7 +15,11 @@ namespace ShariesApp.Views
 		public BalancePage ()
 		{
 			InitializeComponent ();
+        }
+        protected override void OnAppearing()
+        {
             DisplayBalance();
+            base.OnAppearing();
         }
         public void DisplayBalance()
         {
@@ -28,10 +32,6 @@ namespace ShariesApp.Views
             balanceLabel.Text += string.Format("Texts: {0}\n", creditResponse.textAmount);
             balanceLabel.Text += string.Format("Data: {0}\n", creditResponse.dataAmount);
             balanceLabel.Text += string.Format("Minutes: {0}\n", creditResponse.minutesAmount);
-        }
-        private void ReloadBalance(object sender, EventArgs e)
-        {
-            DisplayBalance();
         }
     }
 }

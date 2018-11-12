@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,11 +16,19 @@ namespace ShariesApp.Views
         private static Picker requestPicker;
         private static int requestSelectedIndex;
         private static string currentId; // might need this when deleting requests
-		public RequestPage ()
+        private static List<RequestData> itemList;
+
+        public RequestPage ()
 		{
-			InitializeComponent ();
-		}
-        private void RequestCredit(object sender, EventArgs e)
+			InitializeComponent();
+        }
+        protected override void OnAppearing()
+        {
+            itemList = App.Database.QueryRequestDataByDestination(App.CurrentAccountNumber);
+            this.BindingContext = itemList;
+            base.OnAppearing();
+        }
+        private async void RequestCredit(object sender, EventArgs e)
         {
             requestStatusLabel.Text = "";
             // check if entry text are valid numbers
@@ -29,7 +38,7 @@ namespace ShariesApp.Views
                 var creditDataResponse = App.Database.QueryCreditDataByAccountNumber(App.CurrentAccountNumber);
                 var limitDataResponse = App.Database.GetSystemData("1");
                 // check if valid account
-                if (accountDataResponse.accountNumber > 0)
+                if (accountDataResponse.accountNumber > 0 && accountDataResponse.accountNumber != App.CurrentAccountNumber)
                 {
                     RequestData newRequest = new RequestData
                     {
@@ -71,7 +80,8 @@ namespace ShariesApp.Views
                             }
                             break;
                     }
-                    if (send)
+                    var confirmationResponse = await DisplayAlert("Request", "Are you sure?", "Yes", "No");
+                    if (confirmationResponse && send)
                     {
                         App.Database.InsertRequestDataAsync(newRequest);
                         requestStatusLabel.Text = "Request sent";
@@ -138,6 +148,23 @@ namespace ShariesApp.Views
                         break;
                 }
             }
+        }
+        private void AcceptRequest(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var item = (RequestData)button.CommandParameter;
+            var position = itemList.IndexOf(item);
+
+            // Debug.WriteLine(position);
+        }
+
+        private void DeclineRequest(object sender, EventArgs e)
+        {
+            var button = (Button)sender;
+            var item = (RequestData)button.CommandParameter;
+            var position = itemList.IndexOf(item);
+
+            // Debug.WriteLine(position);
         }
     }
 }

@@ -24,7 +24,7 @@ namespace ShariesApp.Views
             creditLimitPicker = (Picker)sender;
             clSelectedIndex = creditLimitPicker.SelectedIndex;
         }
-        private void SetNewCreditLimit(object sender, EventArgs e)
+        private async void SetNewCreditLimit(object sender, EventArgs e)
         {
             if (clSelectedIndex >= 0) // if picker selection valid
             {
@@ -46,13 +46,17 @@ namespace ShariesApp.Views
                             limits.minutesLimit = Convert.ToDouble(setLimitEntry.Text);
                             break;
                     }
-                    App.Database.UpdateSystemDataAsync(limits); //update row
-                    nameLabel.Text = string.Format("Credit limit: {0}\nText limit: {1}\nData limit: {2}\nMinutes limit: {3}\n",
-                        limits.creditLimit,
-                        limits.textLimit,
-                        limits.dataLimit,
-                        limits.minutesLimit
-                        ); //display new value(s) to label
+                    var confirmationResponse = await DisplayAlert("Set new limit", "Are you sure?", "Yes", "No");
+                    if (confirmationResponse)
+                    {
+                        App.Database.UpdateSystemDataAsync(limits); //update row
+                        nameLabel.Text = string.Format("Credit limit: {0}\nText limit: {1}\nData limit: {2}\nMinutes limit: {3}\n",
+                            limits.creditLimit,
+                            limits.textLimit,
+                            limits.dataLimit,
+                            limits.minutesLimit
+                            ); //display new value(s) to label  
+                    }
                 }
                 else
                 {
@@ -61,29 +65,39 @@ namespace ShariesApp.Views
             }
             setLimitEntry.Text = "";
         }
-        private void ChangeAccountNumber(object sender, EventArgs e) //BUG: user credit updates but not user data sometimes
+        private async void ChangeAccountNumber(object sender, EventArgs e) //BUG: user credit updates but not user data sometimes
         {
             if (App.CheckIsConvertableToInt(oldAccountNUmber.Text) && App.CheckIsConvertableToInt(newAccountNUmber.Text)) //check if entry text is valid number
             {
                 var getUserData = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text)); //get this users details
                 var getCreditData = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text)); //get this users credit details
+
                 bool doesAccountNumberAlreadyExist = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(newAccountNUmber.Text)).accountNumber == 0; //check if already exists
                 bool oldAccountNumberIsNotAdmin = getUserData.accountNumber > 20 && getCreditData.accountNumber > 20; // check if not admin
                 bool newAccountNumberIsNotAdmin = Convert.ToInt32(newAccountNUmber.Text) > 20; // check if destination account number is not admin
+
                 if (oldAccountNumberIsNotAdmin && newAccountNumberIsNotAdmin && doesAccountNumberAlreadyExist)
                 {
-                    getUserData.accountNumber = Convert.ToInt32(newAccountNUmber.Text); // change account number
-                    getCreditData.accountNumber = Convert.ToInt32(newAccountNUmber.Text); // change account number
+                    var confirmationResponse = await DisplayAlert("Change account number", "Are you sure?", "Yes", "No");
+                    if (confirmationResponse)
+                    {
+                        getUserData.accountNumber = Convert.ToInt32(newAccountNUmber.Text); // change account number
+                        getCreditData.accountNumber = Convert.ToInt32(newAccountNUmber.Text); // change account number
 
-                    App.Database.UpdateUserDataAsync(getUserData);
-                    App.Database.UpdateCreditDataAsync(getCreditData);
-                    nameLabelTwo.Text = "Account number changed successfully";
+                        App.Database.UpdateUserDataAsync(getUserData);
+                        App.Database.UpdateCreditDataAsync(getCreditData);
+                        nameLabelTwo.Text = "Account number changed successfully";
+                    }
+                    else
+                        nameLabelTwo.Text = "Account number not changed";
                 }
                 else
                     nameLabelTwo.Text = "Error";
             }
             else
                 nameLabelTwo.Text = "Invalid account number";
+            oldAccountNUmber.Text = "";
+            newAccountNUmber.Text = "";
         }
     }
 }
