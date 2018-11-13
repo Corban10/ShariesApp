@@ -40,7 +40,6 @@ namespace ShariesApp.Views
                         requestSource = App.CurrentAccountNumber,
                         requestDestination = Convert.ToInt32(accountNumberEntry.Text),
                         requestAmount = Convert.ToDouble(requestAmountEntry.Text),
-                        notificationStatus = false,
                         requestType = ""
                     };
                     bool send = false;
