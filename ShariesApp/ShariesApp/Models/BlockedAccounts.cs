@@ -6,12 +6,12 @@ namespace ShariesApp
     public class BlockedAccounts // create own class file? *
     {
         [JsonProperty(PropertyName = "id")]
-        public string id { get; set; }
+        public string BlockId { get; set; }
 
-        [JsonProperty(PropertyName = "blocker")]
-        public int blocker { get; set; }
+        [JsonProperty(PropertyName = "Blocker")]
+        public int Blocker { get; set; }
 
-        [JsonProperty(PropertyName = "blockee")]
-        public int blockee { get; set; }
+        [JsonProperty(PropertyName = "Blockee")]
+        public int Blockee { get; set; }
     }
 }

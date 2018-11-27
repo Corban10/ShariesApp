@@ -8,7 +8,7 @@ namespace ShariesApp
 {
 	public partial class App : Application
     {
-        static ShariesAzureDatabase database;
+        static ShariesAzureDatabase _database;
         public static int CurrentAccountNumber { get; set; }
         public static bool IsUserLoggedIn { get; set; }
         public App ()
@@ -27,18 +27,18 @@ namespace ShariesApp
         {
             get
             {
-                if (database == null)
+                if (_database == null)
                 {
-                    database = new ShariesAzureDatabase();
+                    _database = new ShariesAzureDatabase();
                 }
-                return database;
+                return _database;
             }
         }
-        public static bool CheckIsConvertableToDouble(string input)
+        public static bool IsConvertibleToDouble(string input)
         {
             return (!string.IsNullOrWhiteSpace(input) && Double.TryParse(input, out double e));
         }
-        public static bool CheckIsConvertableToInt(string input)
+        public static bool IsConvertibleToInt(string input)
         {
             return (!string.IsNullOrWhiteSpace(input) && Int32.TryParse(input, out int e));
         }

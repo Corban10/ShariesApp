@@ -6,18 +6,18 @@ namespace ShariesApp
     public class SystemData
     {
         [JsonProperty(PropertyName = "id")]
-        public string id { get; set; }
+        public string SystemDataId { get; set; }
 
-        [JsonProperty(PropertyName = "creditLimit")]
-        public double creditLimit { get; set; }
+        [JsonProperty(PropertyName = "CreditLimit")]
+        public double CreditLimit { get; set; }
 
-        [JsonProperty(PropertyName = "textLimit")]
-        public double textLimit { get; set; }
+        [JsonProperty(PropertyName = "TextLimit")]
+        public double TextLimit { get; set; }
 
-        [JsonProperty(PropertyName = "dataLimit")]
-        public double dataLimit { get; set; }
+        [JsonProperty(PropertyName = "DataLimit")]
+        public double DataLimit { get; set; }
 
-        [JsonProperty(PropertyName = "minutesLimit")]
-        public double minutesLimit { get; set; }
+        [JsonProperty(PropertyName = "MinutesLimit")]
+        public double MinutesLimit { get; set; }
     }
 }

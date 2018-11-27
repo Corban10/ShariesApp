@@ -19,46 +19,46 @@ namespace ShariesApp.Views
             var confirmationResponse = await DisplayAlert("Send", "Are you sure?", "Yes", "No");
             if (confirmationResponse)
             {
-                if (App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(sendAmountEntry.Text)) // check if entries are valid numbers
+                if (App.IsConvertibleToInt(accountNumberEntry.Text) && App.IsConvertibleToDouble(sendAmountEntry.Text)) // check if entries are valid numbers
                 {
                     var myBalance = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(App.CurrentAccountNumber)); //query my balance
                     var destinationAccount = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text)); //query destination account
                     var limits = App.Database.GetSystemData("1");
                     double amount = Convert.ToDouble(sendAmountEntry.Text); //convert entry to double
                     bool send = false;
-                    if (destinationAccount.accountNumber > 0 && myBalance.accountNumber > 0 && myBalance.accountNumber != destinationAccount.accountNumber)
+                    if (destinationAccount.AccountNumber > 0 && myBalance.AccountNumber > 0 && myBalance.AccountNumber != destinationAccount.AccountNumber)
                     {
                         switch (senderSelectedIndex) // get balance based on 
                         {
                             case 0:
-                                if (myBalance.creditAmount > amount && amount < limits.creditLimit)
+                                if (myBalance.CreditAmount > amount && amount < limits.CreditLimit)
                                 {
-                                    myBalance.creditAmount -= amount;
-                                    destinationAccount.creditAmount += amount;
+                                    myBalance.CreditAmount -= amount;
+                                    destinationAccount.CreditAmount += amount;
                                     send = true;
                                 }
                                 break;
                             case 1:
-                                if (myBalance.textAmount > amount && amount < limits.textLimit)
+                                if (myBalance.TextAmount > amount && amount < limits.TextLimit)
                                 {
-                                    myBalance.textAmount -= amount;
-                                    destinationAccount.textAmount += amount;
+                                    myBalance.TextAmount -= amount;
+                                    destinationAccount.TextAmount += amount;
                                     send = true;
                                 }
                                 break;
                             case 2:
-                                if (myBalance.dataAmount > amount && amount < limits.dataLimit)
+                                if (myBalance.DataAmount > amount && amount < limits.DataLimit)
                                 {
-                                    myBalance.dataAmount -= amount;
-                                    destinationAccount.dataAmount += amount;
+                                    myBalance.DataAmount -= amount;
+                                    destinationAccount.DataAmount += amount;
                                     send = true;
                                 }
                                 break;
                             case 3:
-                                if (myBalance.minutesAmount > amount && amount < limits.minutesLimit)
+                                if (myBalance.MinutesAmount > amount && amount < limits.MinutesLimit)
                                 {
-                                    myBalance.minutesAmount -= amount;
-                                    destinationAccount.minutesAmount += amount;
+                                    myBalance.MinutesAmount -= amount;
+                                    destinationAccount.MinutesAmount += amount;
                                     send = true;
                                 }
                                 break;

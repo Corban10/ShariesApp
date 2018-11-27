@@ -1,100 +1,117 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ShariesApp.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class AccountManagementPage : ContentPage
-	{
-        private static string currentId = "";
-		public AccountManagementPage ()
-		{
-			InitializeComponent ();
-		}
-        private bool CheckIfAccountIsBlocked(string blockee)
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class AccountManagementPage : ContentPage
+    {
+        public AccountManagementPage()
+        {
+            InitializeComponent();
+        }
+
+        private async void BlockAccount(object sender, EventArgs e)
+        {
+            if (!App.IsConvertibleToInt(blockAccountEntry.Text) || !await ConfirmationResponse("Block account?"))
+            {
+                blockAccountLabel.Text = "Account not blocked";
+                return;
+            }
+            if (AccountIsBlocked(blockAccountEntry.Text))
+            {
+                blockAccountLabel.Text = "Account is already blocked";
+                return;
+            }
+            App.Database.InsertBlockedAccountsAsync(GetBlockAccount());
+            blockAccountLabel.Text = "Account blocked successfully";
+            blockAccountEntry.Text = "";
+        }
+
+        private async Task<bool> ConfirmationResponse(string message)
+        {
+            return await DisplayAlert(message, "Are you sure?", "Yes", "No");
+        }
+
+        private static string _currentId = "";
+
+        private static bool AccountIsBlocked(string blockee)
         {
             var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(App.CurrentAccountNumber);
             foreach (var item in blockedAccountsList)
             {
-                if (item.blockee == Convert.ToInt32(blockee))
+                if (item.Blockee == Convert.ToInt32(blockee))
                 {
-                    currentId = item.id;
+                    _currentId = item.BlockId;
                     return true;
                 }
             }
             return false;
         }
-        private async void BlockAccount(object sender, EventArgs e)
+
+        private BlockedAccounts GetBlockAccount()
         {
-            blockAccountLabel.Text = "";
-            var confirmationResponse = await DisplayAlert("Block account", "Are you sure?", "Yes", "No");
-            if (confirmationResponse)
+            return new BlockedAccounts
             {
-                if (Int32.TryParse(blockAccountEntry.Text, out int test)) // check if entry value is valid
-                {
-                    if (!CheckIfAccountIsBlocked(blockAccountEntry.Text))
-                    {
-                        var blockedAccountObject = new BlockedAccounts
-                        {
-                            blocker = App.CurrentAccountNumber,
-                            blockee = Convert.ToInt32(blockAccountEntry.Text)
-                        };
-                        App.Database.InsertBlockedAccountsAsync(blockedAccountObject);
-                        blockAccountLabel.Text = "Account blocked successfully";
-                    }
-                    else
-                        blockAccountLabel.Text = "Account is already blocked";
-                }
-            }
-            blockAccountEntry.Text = "";
+                Blocker = App.CurrentAccountNumber,
+                Blockee = Convert.ToInt32(blockAccountEntry.Text)
+            };
         }
+
         private async void UnblockAccount(object sender, EventArgs e)
         {
-            unblockAccountLabel.Text = "";
-            var confirmationResponse = await DisplayAlert("Unblock account", "Are you sure?", "Yes", "No");
-            if (confirmationResponse)
+            if (!await ConfirmationResponse("Unblock account?") || !App.IsConvertibleToInt(unblockAccountEntry.Text))
             {
-                if (Int32.TryParse(unblockAccountEntry.Text, out int test)) // check if entry value is valid
-                {
-                    if (CheckIfAccountIsBlocked(unblockAccountEntry.Text))
-                    {
-                        var blockedAccountObject = new BlockedAccounts
-                        {
-                            id = currentId,
-                            blocker = Convert.ToInt32(App.CurrentAccountNumber),
-                            blockee = Convert.ToInt32(unblockAccountEntry.Text)
-                        };
-                        App.Database.DeleteBlockedAccountsAsync(blockedAccountObject);
-                        unblockAccountLabel.Text = "Account unblocked successfully";
-                    }
-                    else
-                        unblockAccountLabel.Text = "Account is not blocked";
-                }
+                unblockAccountLabel.Text = "Unblock unsuccessful";
+                return;
             }
+            if (!AccountIsBlocked(unblockAccountEntry.Text))
+            {
+                unblockAccountLabel.Text = "Account is not blocked";
+                return;
+            }
+            App.Database.DeleteBlockedAccountsAsync(GetUnblockAccount());
+            unblockAccountLabel.Text = "Account unblocked successfully";
             unblockAccountEntry.Text = "";
         }
+
+        private BlockedAccounts GetUnblockAccount()
+        {
+            return new BlockedAccounts
+            {
+                BlockId = _currentId,
+                Blocker = Convert.ToInt32(App.CurrentAccountNumber),
+                Blockee = Convert.ToInt32(unblockAccountEntry.Text)
+            };
+        }
+
         private async void ChangePassword(object sender, EventArgs e)
         {
-            changePasswordLabel.Text = "";
-            var confirmationResponse = await DisplayAlert("Change password", "Are you sure?", "Yes", "No");
-            if (confirmationResponse)
+            if (PasswordEntryIsValid() && await ConfirmationResponse("Change password?"))
             {
-                if (!string.IsNullOrWhiteSpace(changePasswordOne.Text) && !string.IsNullOrWhiteSpace(changePasswordTwo.Text))
-                {
-                    if (changePasswordOne.Text == changePasswordTwo.Text)
-                    {
-                        var response = App.Database.QueryUserDataByAccountNumber(App.CurrentAccountNumber);
-                        response.password = changePasswordOne.Text;
-                        App.Database.UpdateUserDataAsync(response);
-                        changePasswordLabel.Text = "Password changed";
-                    }
-                    else
-                        changePasswordLabel.Text = "Passwords do not match";
-                }
+                InsertNewPassword();
+                changePasswordLabel.Text = "Password changed";
             }
+            else
+                changePasswordLabel.Text = "Password change unsuccessful";
             changePasswordOne.Text = "";
             changePasswordTwo.Text = "";
+        }
+
+        private bool PasswordEntryIsValid()
+        {
+            if (string.IsNullOrWhiteSpace(changePasswordOne.Text) || string.IsNullOrWhiteSpace(changePasswordTwo.Text))
+                return false;
+            return changePasswordOne.Text == changePasswordTwo.Text;
+        }
+
+        private void InsertNewPassword()
+        {
+            var currentUserData = App.Database.QueryUserDataByAccountNumber(App.CurrentAccountNumber);
+            currentUserData.Password = changePasswordOne.Text;
+            App.Database.UpdateUserDataAsync(currentUserData);
         }
     }
 }

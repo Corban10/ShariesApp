@@ -16,28 +16,28 @@ namespace ShariesApp
 		}
         async void SignUp(object sender, EventArgs e) // bug here somewhere where signup doesnt load loggedInUser properly
         {
-            if (App.CheckIsConvertableToInt(usernameEntry.Text))
+            if (App.IsConvertibleToInt(usernameEntry.Text))
             {
                 var user = new UserData
                 {
-                    accountNumber = Convert.ToInt32(usernameEntry.Text),
-                    password = passwordEntry.Text,
-                    name = nameEntry.Text
+                    AccountNumber = Convert.ToInt32(usernameEntry.Text),
+                    Password = passwordEntry.Text,
+                    Name = nameEntry.Text
                 };
                 var userCredit = new UserCredit
                 {
-                    accountNumber = Convert.ToInt32(usernameEntry.Text),
-                    creditAmount = 1000,
-                    textAmount = 1000,
-                    dataAmount = 1000,
-                    minutesAmount = 1000
+                    AccountNumber = Convert.ToInt32(usernameEntry.Text),
+                    CreditAmount = 1000,
+                    TextAmount = 1000,
+                    DataAmount = 1000,
+                    MinutesAmount = 1000
                 };
                 if (AreDetailsValid(user))
                 {
                     //create user row in db
                     App.Database.InsertUserDataAsync(user);
                     App.Database.InsertCreditDataAsync(userCredit);
-                    App.CurrentAccountNumber = user.accountNumber;
+                    App.CurrentAccountNumber = user.AccountNumber;
                     App.IsUserLoggedIn = true;
                     var rootPage = Navigation.NavigationStack.FirstOrDefault();
                     if (rootPage != null)
@@ -56,10 +56,10 @@ namespace ShariesApp
         }
         private bool AreDetailsValid(UserData user)
         {
-            var responseData = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
-            if (string.IsNullOrWhiteSpace(responseData.id))
+            var responseData = App.Database.QueryUserDataByAccountNumber(user.AccountNumber);
+            if (string.IsNullOrWhiteSpace(responseData.UserId))
             {
-                if (user.accountNumber > 0 && !string.IsNullOrWhiteSpace(user.password) && !string.IsNullOrWhiteSpace(user.name))
+                if (user.AccountNumber > 0 && !string.IsNullOrWhiteSpace(user.Password) && !string.IsNullOrWhiteSpace(user.Name))
                 {
                     return true;
                 }

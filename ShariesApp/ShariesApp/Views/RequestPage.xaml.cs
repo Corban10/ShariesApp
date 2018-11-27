@@ -27,49 +27,49 @@ namespace ShariesApp.Views
         {
             requestStatusLabel.Text = "";
             // check if entry text are valid numbers
-            if (App.CheckIsConvertableToInt(accountNumberEntry.Text) && App.CheckIsConvertableToDouble(requestAmountEntry.Text))
+            if (App.IsConvertibleToInt(accountNumberEntry.Text) && App.IsConvertibleToDouble(requestAmountEntry.Text))
             {
                 var accountDataResponse = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text));
                 var creditDataResponse = App.Database.QueryCreditDataByAccountNumber(App.CurrentAccountNumber);
                 var limitDataResponse = App.Database.GetSystemData("1");
                 // check if valid account
-                if (accountDataResponse.accountNumber > 0 && accountDataResponse.accountNumber != App.CurrentAccountNumber)
+                if (accountDataResponse.AccountNumber > 0 && accountDataResponse.AccountNumber != App.CurrentAccountNumber)
                 {
                     RequestData newRequest = new RequestData
                     {
-                        requestSource = App.CurrentAccountNumber,
-                        requestDestination = Convert.ToInt32(accountNumberEntry.Text),
-                        requestAmount = Convert.ToDouble(requestAmountEntry.Text),
-                        requestType = ""
+                        RequestSource = App.CurrentAccountNumber,
+                        RequestDestination = Convert.ToInt32(accountNumberEntry.Text),
+                        RequestAmount = Convert.ToDouble(requestAmountEntry.Text),
+                        RequestType = ""
                     };
                     bool send = false;
                     switch (requestSelectedIndex)
                     {
                         case 0:
-                            if (CheckRequestAmountValid(creditDataResponse.creditAmount, limitDataResponse.creditLimit))
+                            if (CheckRequestAmountValid(creditDataResponse.CreditAmount, limitDataResponse.CreditLimit))
                             {
-                                newRequest.requestType = "credit";
+                                newRequest.RequestType = "credit";
                                 send = true;
                             }
                             break;
                         case 1:
-                            if (CheckRequestAmountValid(creditDataResponse.textAmount, limitDataResponse.textLimit))
+                            if (CheckRequestAmountValid(creditDataResponse.TextAmount, limitDataResponse.TextLimit))
                             {
-                                newRequest.requestType = "text";
+                                newRequest.RequestType = "text";
                                 send = true;
                             }
                             break;
                         case 2:
-                            if (CheckRequestAmountValid(creditDataResponse.dataAmount, limitDataResponse.dataLimit))
+                            if (CheckRequestAmountValid(creditDataResponse.DataAmount, limitDataResponse.DataLimit))
                             {
-                                newRequest.requestType = "data";
+                                newRequest.RequestType = "data";
                                 send = true;
                             }
                             break;
                         case 3:
-                            if (CheckRequestAmountValid(creditDataResponse.minutesAmount, limitDataResponse.minutesLimit))
+                            if (CheckRequestAmountValid(creditDataResponse.MinutesAmount, limitDataResponse.MinutesLimit))
                             {
-                                newRequest.requestType = "minutes";
+                                newRequest.RequestType = "minutes";
                                 send = true;
                             }
                             break;
@@ -113,7 +113,7 @@ namespace ShariesApp.Views
             var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(Convert.ToInt32(blocker));
             foreach (var item in blockedAccountsList)
             {
-                if (item.blockee == App.CurrentAccountNumber)
+                if (item.Blockee == App.CurrentAccountNumber)
                 {
                     return true;
                 }
@@ -148,41 +148,41 @@ namespace ShariesApp.Views
             var button = (Button)sender;
             var item = (RequestData)button.CommandParameter;
             var position = itemList.IndexOf(item);
-            var requestType = item.requestType;
+            var requestType = item.RequestType;
 
             // get requesters balance
-            var requestersCredit = App.Database.QueryCreditDataByAccountNumber(item.requestSource);
+            var requestersCredit = App.Database.QueryCreditDataByAccountNumber(item.RequestSource);
             // get requestee's balance (current user)
-            var requesteeCredit = App.Database.QueryCreditDataByAccountNumber(item.requestDestination);
+            var requesteeCredit = App.Database.QueryCreditDataByAccountNumber(item.RequestDestination);
             // check type
             switch (requestType) // picker value selection
             {
                 case "credit":
-                    if (requesteeCredit.creditAmount > item.requestAmount) // check if we have enough
+                    if (requesteeCredit.CreditAmount > item.RequestAmount) // check if we have enough
                     {
-                        requesteeCredit.creditAmount -= item.requestAmount;
-                        requestersCredit.creditAmount += item.requestAmount;
+                        requesteeCredit.CreditAmount -= item.RequestAmount;
+                        requestersCredit.CreditAmount += item.RequestAmount;
                     }
                     break;
                 case "text":
-                    if (requesteeCredit.textAmount > item.requestAmount) // check if we have enough
+                    if (requesteeCredit.TextAmount > item.RequestAmount) // check if we have enough
                     {
-                        requesteeCredit.textAmount -= item.requestAmount;
-                        requestersCredit.textAmount += item.requestAmount;
+                        requesteeCredit.TextAmount -= item.RequestAmount;
+                        requestersCredit.TextAmount += item.RequestAmount;
                     }
                     break;
                 case "data":
-                    if (requesteeCredit.dataAmount > item.requestAmount) // check if we have enough
+                    if (requesteeCredit.DataAmount > item.RequestAmount) // check if we have enough
                     {
-                        requesteeCredit.dataAmount -= item.requestAmount;
-                        requestersCredit.dataAmount += item.requestAmount;
+                        requesteeCredit.DataAmount -= item.RequestAmount;
+                        requestersCredit.DataAmount += item.RequestAmount;
                     }
                     break;
                 case "minutes":
-                    if (requesteeCredit.minutesAmount > item.requestAmount) // check if we have enough
+                    if (requesteeCredit.MinutesAmount > item.RequestAmount) // check if we have enough
                     {
-                        requesteeCredit.minutesAmount -= item.requestAmount;
-                        requestersCredit.minutesAmount += item.requestAmount;
+                        requesteeCredit.MinutesAmount -= item.RequestAmount;
+                        requestersCredit.MinutesAmount += item.RequestAmount;
                     }
                     break;
             }

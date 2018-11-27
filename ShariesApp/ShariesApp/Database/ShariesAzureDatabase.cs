@@ -33,7 +33,7 @@ namespace ShariesApp
             try
             {
                 var userData = Task.Run(async () => {
-                    return await userDataTable.Where(item => item.accountNumber == aNum).ToListAsync();
+                    return await userDataTable.Where(item => item.AccountNumber == aNum).ToListAsync();
                 }).Result.First();
                 return userData;
             }
@@ -78,7 +78,7 @@ namespace ShariesApp
         {
             var userData = Task.Run(async () =>
             {
-                return await blockedAccountsTable.Where(item => item.blocker == blocker).ToListAsync();
+                return await blockedAccountsTable.Where(item => item.Blocker == blocker).ToListAsync();
             }).Result;
             return userData;
         }
@@ -100,7 +100,7 @@ namespace ShariesApp
             {
                 var userCredit = Task.Run(async () =>
                 {
-                    return await userCreditTable.Where(item => item.accountNumber == aNum).ToListAsync();
+                    return await userCreditTable.Where(item => item.AccountNumber == aNum).ToListAsync();
                 }).Result.First();
                 return userCredit;
             }
@@ -138,7 +138,7 @@ namespace ShariesApp
         {
             var request = Task.Run(async () =>
             {
-                return await requestDataTable.Where(item => item.requestDestination == aNum).ToListAsync();
+                return await requestDataTable.Where(item => item.RequestDestination == aNum).ToListAsync();
             }).Result;
             return request;
         }

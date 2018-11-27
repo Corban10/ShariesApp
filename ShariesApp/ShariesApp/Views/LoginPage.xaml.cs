@@ -18,27 +18,24 @@ namespace ShariesApp
         }
         async void LoginToSystem(object sender, EventArgs e)
         {
-            if (App.CheckIsConvertableToInt(usernameEntry.Text))
+            if (App.IsConvertibleToInt(usernameEntry.Text))
             {
                 var user = new UserData
                 {
-                    accountNumber = Convert.ToInt32(usernameEntry.Text),
-                    password = passwordEntry.Text
+                    AccountNumber = Convert.ToInt32(usernameEntry.Text),
+                    Password = passwordEntry.Text
                 };
-                if (user.accountNumber > 0)
+                if (AreCredentialsCorrect(user))
                 {
-                    if (AreCredentialsCorrect(user))
-                    {
-                        App.CurrentAccountNumber = user.accountNumber;
-                        App.IsUserLoggedIn = true;
-                        Navigation.InsertPageBefore(new MainPage(), this);
-                        await Navigation.PopAsync();
-                    }
-                    else
-                    {
-                        messageLabel.Text = "Login failed";
-                        passwordEntry.Text = string.Empty;
-                    }
+                    App.CurrentAccountNumber = user.AccountNumber;
+                    App.IsUserLoggedIn = true;
+                    Navigation.InsertPageBefore(new MainPage(), this);
+                    await Navigation.PopAsync();
+                }
+                else
+                {
+                    messageLabel.Text = "Login failed";
+                    passwordEntry.Text = string.Empty;
                 }
             }
             else
@@ -46,8 +43,8 @@ namespace ShariesApp
         }
         private bool AreCredentialsCorrect(UserData user)
         {
-            var responseData = App.Database.QueryUserDataByAccountNumber(user.accountNumber);
-            if (responseData.password == user.password)
+            var responseData = App.Database.QueryUserDataByAccountNumber(user.AccountNumber);
+            if (responseData.Password == user.Password && user.AccountNumber > 0)
             {
                 return true;
             }

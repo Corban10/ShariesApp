@@ -5,24 +5,24 @@ namespace ShariesApp
 {
     public class UserCredit
     // This is the only model that isn't included in our ERD and class diagram
-    // because it represents the main systems database
+    // because it represents the main systems _database
     {
         [JsonProperty(PropertyName = "id")]
-        public string id { get; set; }
+        public string UserCreditId { get; set; }
 
-        [JsonProperty(PropertyName = "accountNumber")]
-        public int accountNumber { get; set; }
+        [JsonProperty(PropertyName = "AccountNumber")]
+        public int AccountNumber { get; set; }
 
-        [JsonProperty(PropertyName = "creditAmount")]
-        public double creditAmount { get; set; }
+        [JsonProperty(PropertyName = "CreditAmount")]
+        public double CreditAmount { get; set; }
 
-        [JsonProperty(PropertyName = "textAmount")]
-        public double textAmount { get; set; }
+        [JsonProperty(PropertyName = "TextAmount")]
+        public double TextAmount { get; set; }
 
-        [JsonProperty(PropertyName = "dataAmount")]
-        public double dataAmount { get; set; }
+        [JsonProperty(PropertyName = "DataAmount")]
+        public double DataAmount { get; set; }
 
-        [JsonProperty(PropertyName = "minutesAmount")]
-        public double minutesAmount { get; set; }
+        [JsonProperty(PropertyName = "MinutesAmount")]
+        public double MinutesAmount { get; set; }
     }
 }

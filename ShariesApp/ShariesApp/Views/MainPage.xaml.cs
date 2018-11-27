@@ -12,12 +12,12 @@ namespace ShariesApp.Views
             InitializeComponent();
             var response = App.Database.QueryUserDataByAccountNumber(App.CurrentAccountNumber);
             // if admin
-            if (response.accountNumber <= 20 && response.accountNumber > 0)
+            if (response.AccountNumber <= 20 && response.AccountNumber > 0)
             {
                 this.Children.Add(new AdminPage() { Title = "Admin" });
             }
             // only here as temporary fix to bug where user data query wasnt returning in time
-            else if (response.accountNumber == 0)
+            else if (response.AccountNumber == 0)
             {
                 this.Children.Add(new BalancePage() { Title = "Balance" }); 
             }
