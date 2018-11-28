@@ -33,10 +33,7 @@ namespace ShariesApp.Views
             var creditDataResponse = App.Database.QueryCreditDataByAccountNumber(App.CurrentAccountNumber);
             var limitDataResponse = App.Database.GetSystemData("1");
             if (!AccountNumberIsValid(accountDataResponse))
-            {
-                requestStatusLabel.Text = "Invalid Account";
                 return;
-            }
             var newRequest = GetRequestData();
             switch (_requestSelectedIndex)
             {
@@ -74,7 +71,17 @@ namespace ShariesApp.Views
 
         private bool EntryTextIsValid()
         {
-            return App.IsConvertibleToInt(accountNumberEntry.Text) && App.IsConvertibleToDouble(requestAmountEntry.Text);
+            if (!App.IsConvertibleToInt(accountNumberEntry.Text))
+            {
+                requestStatusLabel.Text = "Invalid Account";
+                return false;
+            }
+            if (!App.IsConvertibleToDouble(requestAmountEntry.Text))
+            {
+                requestStatusLabel.Text = "Invalid Amount";
+                return false;
+            }
+            return true;
         }
 
         private static bool AccountNumberIsValid(UserData accountDataResponse)
