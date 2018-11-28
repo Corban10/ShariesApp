@@ -77,6 +77,8 @@ namespace ShariesApp.Views
         {
             if (!await ConfirmationResponse("Change account number?"))
                 return;
+            if (!App.IsConvertibleToInt(oldAccountNUmber.Text) || !App.IsConvertibleToInt(newAccountNUmber.Text))
+                return;
             var userData = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text));
             var userCredit = App.Database.QueryCreditDataByAccountNumber(Convert.ToInt32(oldAccountNUmber.Text));
             if (!AccountNumberCanChange(userData, userCredit))
@@ -92,8 +94,6 @@ namespace ShariesApp.Views
 
         private bool AccountNumberCanChange(UserData userData, UserCredit userCredit)
         {
-            if (!App.IsConvertibleToInt(oldAccountNUmber.Text) || !App.IsConvertibleToInt(newAccountNUmber.Text))
-                return false;
             bool accountNumberExists = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(newAccountNUmber.Text)).AccountNumber == 0; //check if already exists
             bool oldAccNumIsNotAdmin = userData.AccountNumber > 20 && userCredit.AccountNumber > 20; // check if not admin
             bool newAccNumIsNotAdmin = Convert.ToInt32(newAccountNUmber.Text) > 20; // check if destination account number is not admin

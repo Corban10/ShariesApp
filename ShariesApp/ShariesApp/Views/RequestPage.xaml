@@ -49,9 +49,9 @@
                                             <ColumnDefinition Width="1.25*"/>
                                             <ColumnDefinition Width="1.25*"/>
                                         </Grid.ColumnDefinitions>
-                                        <Label x:Name="sourceLabel" Text="{Binding requestSource}" VerticalTextAlignment="Center"></Label>
-                                        <Label x:Name="amountLabel" Grid.Column="1" Text="{Binding requestAmount}" VerticalTextAlignment="Center"></Label>
-                                        <Label x:Name="typeLabel" Grid.Column="2" Text="{Binding requestType}" VerticalTextAlignment="Center"></Label>
+                                        <Label x:Name="sourceLabel" Text="{Binding RequestSource}" VerticalTextAlignment="Center"></Label>
+                                        <Label x:Name="amountLabel" Grid.Column="1" Text="{Binding RequestAmount}" VerticalTextAlignment="Center"></Label>
+                                        <Label x:Name="typeLabel" Grid.Column="2" Text="{Binding RequestType}" VerticalTextAlignment="Center"></Label>
                                         <Button x:Name="acceptButton" Grid.Column="3" Text="Accept" FontSize="Micro" Clicked="AcceptRequest" CommandParameter="{Binding}"/>
                                         <Button x:Name="declineButton" Grid.Column="4" Text="Decline" FontSize="Micro" Clicked="DeclineRequest" CommandParameter="{Binding}"/>
                                     </Grid>

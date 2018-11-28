@@ -1,114 +1,135 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
 namespace ShariesApp.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class RequestPage : ContentPage
-	{
-        private static Picker requestPicker;
-        private static int requestSelectedIndex;
-        private static string currentId; // might need this when deleting requests
-        private static List<RequestData> itemList;
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class RequestPage : ContentPage
+    {
+        private static Picker _requestPicker;
+        private static int _requestSelectedIndex;
+        private static List<RequestData> _itemList;
 
-        public RequestPage ()
-		{
-			InitializeComponent();
+        public RequestPage()
+        {
+            InitializeComponent();
         }
+
         protected override void OnAppearing()
         {
-            itemList = App.Database.QueryRequestDataByDestination(App.CurrentAccountNumber);
-            this.BindingContext = itemList;
+            _itemList = App.Database.QueryRequestDataByDestination(App.CurrentAccountNumber);
+            this.BindingContext = _itemList;
             base.OnAppearing();
         }
+
         private async void RequestCredit(object sender, EventArgs e)
         {
-            requestStatusLabel.Text = "";
-            // check if entry text are valid numbers
-            if (App.IsConvertibleToInt(accountNumberEntry.Text) && App.IsConvertibleToDouble(requestAmountEntry.Text))
+            if (!EntryTextIsValid())
+                return;
+            var accountDataResponse = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text));
+            var creditDataResponse = App.Database.QueryCreditDataByAccountNumber(App.CurrentAccountNumber);
+            var limitDataResponse = App.Database.GetSystemData("1");
+            if (!AccountNumberIsValid(accountDataResponse))
             {
-                var accountDataResponse = App.Database.QueryUserDataByAccountNumber(Convert.ToInt32(accountNumberEntry.Text));
-                var creditDataResponse = App.Database.QueryCreditDataByAccountNumber(App.CurrentAccountNumber);
-                var limitDataResponse = App.Database.GetSystemData("1");
-                // check if valid account
-                if (accountDataResponse.AccountNumber > 0 && accountDataResponse.AccountNumber != App.CurrentAccountNumber)
-                {
-                    RequestData newRequest = new RequestData
-                    {
-                        RequestSource = App.CurrentAccountNumber,
-                        RequestDestination = Convert.ToInt32(accountNumberEntry.Text),
-                        RequestAmount = Convert.ToDouble(requestAmountEntry.Text),
-                        RequestType = ""
-                    };
-                    bool send = false;
-                    switch (requestSelectedIndex)
-                    {
-                        case 0:
-                            if (CheckRequestAmountValid(creditDataResponse.CreditAmount, limitDataResponse.CreditLimit))
-                            {
-                                newRequest.RequestType = "credit";
-                                send = true;
-                            }
-                            break;
-                        case 1:
-                            if (CheckRequestAmountValid(creditDataResponse.TextAmount, limitDataResponse.TextLimit))
-                            {
-                                newRequest.RequestType = "text";
-                                send = true;
-                            }
-                            break;
-                        case 2:
-                            if (CheckRequestAmountValid(creditDataResponse.DataAmount, limitDataResponse.DataLimit))
-                            {
-                                newRequest.RequestType = "data";
-                                send = true;
-                            }
-                            break;
-                        case 3:
-                            if (CheckRequestAmountValid(creditDataResponse.MinutesAmount, limitDataResponse.MinutesLimit))
-                            {
-                                newRequest.RequestType = "minutes";
-                                send = true;
-                            }
-                            break;
-                    }
-                    var confirmationResponse = await DisplayAlert("Request", "Are you sure?", "Yes", "No");
-                    if (confirmationResponse && send)
-                    {
-                        App.Database.InsertRequestDataAsync(newRequest);
-                        requestStatusLabel.Text = "Request sent";
-                    }
-                }
-                else
-                    requestStatusLabel.Text = "Invalid Account";
+                requestStatusLabel.Text = "Invalid Account";
+                return;
             }
+            var newRequest = GetRequestData();
+            switch (_requestSelectedIndex)
+            {
+                case 0:
+                    if (!RequestAmountValid(creditDataResponse.CreditAmount, limitDataResponse.CreditLimit))
+                        return;
+                    newRequest.RequestType = "credit";
+                    break;
+                case 1:
+                    if (!RequestAmountValid(creditDataResponse.TextAmount, limitDataResponse.TextLimit))
+                        return;
+                    newRequest.RequestType = "text";
+                    break;
+                case 2:
+                    if (!RequestAmountValid(creditDataResponse.DataAmount, limitDataResponse.DataLimit))
+                        return;
+                    newRequest.RequestType = "data";
+                    break;
+                case 3:
+                    if (!RequestAmountValid(creditDataResponse.MinutesAmount, limitDataResponse.MinutesLimit))
+                        return;
+                    newRequest.RequestType = "minutes";
+                    break;
+                default:
+                    return;
+            }
+            if (!await ConfirmationResponse("Request?"))
+            {
+                requestStatusLabel.Text = "Request not sent";
+                return;
+            }
+            App.Database.InsertRequestDataAsync(newRequest);
+            requestStatusLabel.Text = "Request sent";
         }
-        private bool CheckRequestAmountValid(double balance, double limit)
+
+        private bool EntryTextIsValid()
         {
-            // check if amount < than balance
-            if (Convert.ToInt32(requestAmountEntry.Text) < balance)
-            {
-                // check if amount < than limit
-                if (Convert.ToInt32(requestAmountEntry.Text) < limit)
-                {
-                    // check if blocked
-                    if (!CheckIfAccountIsBlocked(accountNumberEntry.Text))
-                    {
-                        return true;
-                    }
-                    else
-                        requestStatusLabel.Text = "That user is blocking you";
-                }
-                else
-                    requestStatusLabel.Text = "Request is over transfer limit";
-            }
-            else
-                requestStatusLabel.Text = "Insufficient funds";
-            return false;
+            return App.IsConvertibleToInt(accountNumberEntry.Text) && App.IsConvertibleToDouble(requestAmountEntry.Text);
         }
-        private bool CheckIfAccountIsBlocked(string blocker)
+
+        private static bool AccountNumberIsValid(UserData accountDataResponse)
+        {
+            return accountDataResponse.AccountNumber > 0 && accountDataResponse.AccountNumber != App.CurrentAccountNumber;
+        }
+
+        private RequestData GetRequestData()
+        {
+            RequestData newRequest = new RequestData
+            {
+                RequestSource = App.CurrentAccountNumber,
+                RequestDestination = Convert.ToInt32(accountNumberEntry.Text),
+                RequestAmount = Convert.ToDouble(requestAmountEntry.Text),
+                RequestType = ""
+            };
+            return newRequest;
+        }
+
+        private async Task<bool> ConfirmationResponse(string message)
+        {
+            return await DisplayAlert(message, "Are you sure?", "Yes", "No");
+        }
+
+        private bool RequestAmountValid(double balance, double limit)
+        {
+            if (!RequestIsUnderLimit(limit))
+            {
+                requestStatusLabel.Text = "Request is over transfer limit";
+                return false;
+            }
+            if (!SufficientFunds(balance))
+            {
+                requestStatusLabel.Text = "Insufficient funds";
+                return false;
+            }
+            if (AccountIsBlocked(accountNumberEntry.Text))
+            {
+                requestStatusLabel.Text = "That user is blocking you";
+                return false;
+            }
+            return true;
+        }
+
+        private bool SufficientFunds(double balance)
+        {
+            return Convert.ToInt32(requestAmountEntry.Text) < balance;
+        }
+
+        private bool RequestIsUnderLimit(double limit)
+        {
+            return Convert.ToInt32(requestAmountEntry.Text) < limit;
+        }
+
+        private static bool AccountIsBlocked(string blocker)
         {
             var blockedAccountsList = App.Database.QueryBlockedAccountsByBlocker(Convert.ToInt32(blocker));
             foreach (var item in blockedAccountsList)
@@ -120,13 +141,14 @@ namespace ShariesApp.Views
             }
             return false;
         }
+
         private void RequestPickerSelectedIndexChanged(object sender, EventArgs e)
         {
-            requestPicker = (Picker)sender;
-            requestSelectedIndex = requestPicker.SelectedIndex;
-            if (requestSelectedIndex >= 0) // if picker selection valid
+            _requestPicker = (Picker)sender;
+            _requestSelectedIndex = _requestPicker.SelectedIndex;
+            if (_requestSelectedIndex >= 0) // if picker selection valid
             {
-                switch (requestSelectedIndex) // picker value selection
+                switch (_requestSelectedIndex) // picker value selection
                 {
                     case 0:
                         requestAmountEntry.Placeholder = "Dollars";
@@ -143,74 +165,69 @@ namespace ShariesApp.Views
                 }
             }
         }
+
         private async void AcceptRequest(object sender, EventArgs e)
         {
             var button = (Button)sender;
             var item = (RequestData)button.CommandParameter;
-            var position = itemList.IndexOf(item);
+            var position = _itemList.IndexOf(item);
             var requestType = item.RequestType;
 
-            // get requesters balance
-            var requestersCredit = App.Database.QueryCreditDataByAccountNumber(item.RequestSource);
-            // get requestee's balance (current user)
-            var requesteeCredit = App.Database.QueryCreditDataByAccountNumber(item.RequestDestination);
-            // check type
+            var requesterBalance = App.Database.QueryCreditDataByAccountNumber(item.RequestSource);
+            var requesteeBalance = App.Database.QueryCreditDataByAccountNumber(item.RequestDestination);
             switch (requestType) // picker value selection
             {
                 case "credit":
-                    if (requesteeCredit.CreditAmount > item.RequestAmount) // check if we have enough
+                    if (requesteeBalance.CreditAmount > item.RequestAmount) // check if we have enough
                     {
-                        requesteeCredit.CreditAmount -= item.RequestAmount;
-                        requestersCredit.CreditAmount += item.RequestAmount;
+                        requesteeBalance.CreditAmount -= item.RequestAmount;
+                        requesterBalance.CreditAmount += item.RequestAmount;
                     }
                     break;
                 case "text":
-                    if (requesteeCredit.TextAmount > item.RequestAmount) // check if we have enough
+                    if (requesteeBalance.TextAmount > item.RequestAmount) // check if we have enough
                     {
-                        requesteeCredit.TextAmount -= item.RequestAmount;
-                        requestersCredit.TextAmount += item.RequestAmount;
+                        requesteeBalance.TextAmount -= item.RequestAmount;
+                        requesterBalance.TextAmount += item.RequestAmount;
                     }
                     break;
                 case "data":
-                    if (requesteeCredit.DataAmount > item.RequestAmount) // check if we have enough
+                    if (requesteeBalance.DataAmount > item.RequestAmount) // check if we have enough
                     {
-                        requesteeCredit.DataAmount -= item.RequestAmount;
-                        requestersCredit.DataAmount += item.RequestAmount;
+                        requesteeBalance.DataAmount -= item.RequestAmount;
+                        requesterBalance.DataAmount += item.RequestAmount;
                     }
                     break;
                 case "minutes":
-                    if (requesteeCredit.MinutesAmount > item.RequestAmount) // check if we have enough
+                    if (requesteeBalance.MinutesAmount > item.RequestAmount) // check if we have enough
                     {
-                        requesteeCredit.MinutesAmount -= item.RequestAmount;
-                        requestersCredit.MinutesAmount += item.RequestAmount;
+                        requesteeBalance.MinutesAmount -= item.RequestAmount;
+                        requesterBalance.MinutesAmount += item.RequestAmount;
                     }
                     break;
             }
-            var confirmationResponse = await DisplayAlert("Accept Request", "Are you sure?", "Yes", "No");
-            if (confirmationResponse)
+            if (await ConfirmationResponse("Accept Request?"))
             {
-                // send
-                App.Database.UpdateCreditData(requesteeCredit);
-                App.Database.UpdateCreditData(requestersCredit);
-                // delete request data row
-                App.Database.DeleteRequestDataAsync(itemList[position]);
-                // refresh binding context
+                TransferCredit(requesteeBalance, requesterBalance, position);
                 OnAppearing();
             }
+        }
+
+        private static void TransferCredit(UserCredit requesteeCredit, UserCredit requesterCredit, int position)
+        {
+            App.Database.UpdateCreditData(requesteeCredit);
+            App.Database.UpdateCreditData(requesterCredit);
+            App.Database.DeleteRequestDataAsync(_itemList[position]);
         }
 
         private async void DeclineRequest(object sender, EventArgs e)
         {
             var button = (Button)sender;
             var item = (RequestData)button.CommandParameter;
-            var position = itemList.IndexOf(item);
-
-            var confirmationResponse = await DisplayAlert("Decline Request", "Are you sure?", "Yes", "No");
-            if (confirmationResponse)
+            var position = _itemList.IndexOf(item);
+            if (await ConfirmationResponse("Decline Request?"))
             {
-                // delete request data row
-                App.Database.DeleteRequestDataAsync(itemList[position]);
-                // refresh binding context
+                App.Database.DeleteRequestDataAsync(_itemList[position]);
                 OnAppearing();
             }
         }

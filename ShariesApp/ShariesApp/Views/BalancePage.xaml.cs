@@ -3,18 +3,20 @@ using Xamarin.Forms.Xaml;
 
 namespace ShariesApp.Views
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class BalancePage : ContentPage
-	{
-		public BalancePage ()
-		{
-			InitializeComponent ();
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class BalancePage : ContentPage
+    {
+        public BalancePage()
+        {
+            InitializeComponent();
         }
+
         protected override void OnAppearing()
         {
             DisplayBalance();
             base.OnAppearing();
         }
+
         public void DisplayBalance()
         {
             var creditResponse = App.Database.QueryCreditDataByAccountNumber(App.CurrentAccountNumber);
